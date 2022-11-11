@@ -1,33 +1,15 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { GoogleAuthModule } from './google-auth/google-auth.module';
-import { UserModule } from './user/user.module';
+import { dataSourceOptions } from '../db/data-source';
+import { ConfigModule } from '@nestjs/config';
+import { CourseModule } from './course/course.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [() => process.env],
-    }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
-      entities: [__dirname + '/../**/*.entity.js'],
-      synchronize: true,
-      namingStrategy: new SnakeNamingStrategy(),
-    }),
-    PassportModule.register({ session: true }),
-    GoogleAuthModule,
-    UserModule,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(dataSourceOptions),
+    CourseModule,
   ],
-
   controllers: [],
   providers: [],
 })
