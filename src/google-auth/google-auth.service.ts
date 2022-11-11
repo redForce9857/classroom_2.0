@@ -17,7 +17,7 @@ export class GoogleAuthService {
   async validateUser(dto: CreateGoogleAuthDto) {
     const user = await this.userRepo.findOneBy({ email: dto.email });
     if (user) {
-      //update
+      //update later
       return user;
     }
     const newUser = this.create(dto);
