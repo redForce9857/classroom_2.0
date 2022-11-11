@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { GoogleAuthModule } from './google-auth/google-auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy(),
     }),
+    PassportModule.register({ session: true }),
+    GoogleAuthModule,
+    UserModule,
   ],
 
   controllers: [],
