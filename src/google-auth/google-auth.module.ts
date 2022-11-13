@@ -7,7 +7,7 @@ import { User } from 'src/user/entities/user.entity';
 import { SessionSerializer } from './utils/serializer';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([User])],
   controllers: [GoogleAuthController],
   providers: [GoogleAuthService, GoogleAuthStrategy, SessionSerializer],
 })

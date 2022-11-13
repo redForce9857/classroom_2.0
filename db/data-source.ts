@@ -1,3 +1,6 @@
+// Задать вопрос по поводу тогоЮ чтобы не экспортировать
+// конфигурацию, а экспортировать модуль
+
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 dotenv.config();
