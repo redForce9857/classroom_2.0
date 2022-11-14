@@ -4,6 +4,7 @@ import { dataSourceOptions } from '../db/data-source';
 import { ConfigModule } from '@nestjs/config';
 import { CourseModule } from './course/course.module';
 import { AssignmentModule } from './assignment/assignment.module';
+import { TasksStreamModule } from './tasks-stream/tasks-stream.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { AssignmentModule } from './assignment/assignment.module';
     TypeOrmModule.forRoot(dataSourceOptions),
     CourseModule,
     AssignmentModule,
+    TasksStreamModule,
   ],
   controllers: [],
   providers: [],
