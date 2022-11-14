@@ -1,16 +1,15 @@
+import { CourseEntity } from "src/course/entities/course.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { CourseEntity } from "../../course/entities/course.entity";
-import { User } from "../../user/entities/user.entity";
 
-@Entity()
-export class TasksStream {
+
+@Entity({name: 'task_stream'})
+export class TasksStreamEntity {
   @PrimaryGeneratedColumn()
   id:string;
 
   @Column()
   topic:string;
 
-  @ManyToOne(() => CourseEntity, (course) => course.tasksStream)
-  subject: CourseEntity;
-
+  @ManyToOne(() => CourseEntity , (courseeee) => courseeee.course)
+  course: CourseEntity;
 }

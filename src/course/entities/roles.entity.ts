@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { generator } from "../idGen";
+import { UserRole } from "../enum/role.enum";
 
 @Entity({name: 'roles'})
 export class RolesEntity {
@@ -14,6 +14,11 @@ export class RolesEntity {
 	})
 	role: UserRole
 
-	@Column()
-	courseId: [];
+	@Column({
+		type: "text",
+		array: true,
+		default: [],
+		nullable: true
+	 })
+	courseId?: any[];
 }

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
-import { User } from 'src/user/entities/user.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { GoogleAuthService } from '../google-auth.service';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
 
-  async serializeUser(user: User, done: Function) {
+  async serializeUser(user: UserEntity, done: Function) {
     console.log('serialize user');
     done(null, user);
   }

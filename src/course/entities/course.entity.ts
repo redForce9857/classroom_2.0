@@ -1,3 +1,5 @@
+import { AssignmentEntity } from "src/assignment/entities/assigments.entity";
+import { TasksStreamEntity } from "src/tasks-stream/entities/tasks-stream.entity";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 import { generator } from "../idGen";
 import { RolesEntity } from "./roles.entity";
@@ -14,13 +16,13 @@ export class CourseEntity {
   @Column({nullable: true})
   room?: string;
 
-  // @OneToMany()
-  subject?: string;
+  @OneToMany(() => TasksStreamEntity, (taskStream) => taskStream.course)
+  course?: TasksStreamEntity[];
 
   @OneToOne(() => RolesEntity)
   @JoinColumn()
   rolesId: RolesEntity
 
-  @Column()
-  userId: 
+  @OneToMany(() => AssignmentEntity, (assignment) => assignment.course)
+  assignments?: AssignmentEntity[];
 }

@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { CourseEntity } from 'src/course/entities/course.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'assignments' })
 export class AssignmentEntity {
@@ -13,8 +14,8 @@ export class AssignmentEntity {
   link: string;
 
   // if its right
-  @Column()
-  courseIds: Array<any>;
+  @ManyToOne(() => CourseEntity, (courseeee) => courseeee.assignments)
+  course: CourseEntity;
 
   @Column({ default: true })
   allStudents: boolean;
