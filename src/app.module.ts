@@ -7,6 +7,7 @@ import { TasksStreamModule } from './tasks-stream/tasks-stream.module';
 import { dataSourceOptions } from 'db/data-source';
 import { GradeModule } from './grade/grade.module';
 import { GoogleAuthModule } from './google-auth/google-auth.module';
+import { UserModule } from './user/user.module';
 
 
 @Module({
@@ -18,6 +19,7 @@ import { GoogleAuthModule } from './google-auth/google-auth.module';
     TasksStreamModule,
     GradeModule,
     GoogleAuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
