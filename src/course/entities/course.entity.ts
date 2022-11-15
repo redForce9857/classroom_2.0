@@ -4,16 +4,15 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "
 import { generator } from "../idGen";
 import { RolesEntity } from "./roles.entity";
 
-@Entity({name: 'courses'})
+@Entity({ name: "courses" })
 export class CourseEntity {
-  
   @PrimaryColumn()
-  id:string = generator()
-  
+  id: string = generator();
+
   @Column()
   title: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   room?: string;
 
   @OneToMany(() => TasksStreamEntity, (taskStream) => taskStream.course)
@@ -21,8 +20,8 @@ export class CourseEntity {
 
   @OneToOne(() => RolesEntity)
   @JoinColumn()
-  rolesId: RolesEntity
+  rolesId: RolesEntity;
 
-  @OneToMany(() => AssignmentEntity, (assignment) => assignment.course)
+  @OneToMany(() => AssignmentEntity, (assignment) => assignment.courseId)
   assignments?: AssignmentEntity[];
 }

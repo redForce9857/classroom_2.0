@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TasksStreamService } from './tasks-stream.service';
 import { CreateTasksStreamDto } from './dto/create-tasks-stream.dto';
 import { UpdateTasksStreamDto } from './dto/update-tasks-stream.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('tasks-stream')
+@ApiTags("Task stream")
+@Controller("tasks-stream")
 export class TasksStreamController {
   constructor(private readonly tasksStreamService: TasksStreamService) {}
 
@@ -17,18 +19,21 @@ export class TasksStreamController {
     return this.tasksStreamService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.tasksStreamService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTasksStreamDto: UpdateTasksStreamDto) {
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateTasksStreamDto: UpdateTasksStreamDto
+  ) {
     return this.tasksStreamService.update(+id, updateTasksStreamDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.tasksStreamService.remove(+id);
   }
 }
