@@ -5,9 +5,8 @@ import { CourseModule } from './course/course.module';
 import { AssignmentModule } from './assignment/assignment.module';
 import { TasksStreamModule } from './tasks-stream/tasks-stream.module';
 import { dataSourceOptions } from 'db/data-source';
-import { GradeModule } from './grade/grade.module';
+import { UserCourseModule } from './user_course/user_course.module';
 import { GoogleAuthModule } from './google-auth/google-auth.module';
-import { UserModule } from './user/user.module';
 
 
 @Module({
@@ -17,9 +16,9 @@ import { UserModule } from './user/user.module';
     CourseModule,
     AssignmentModule,
     TasksStreamModule,
-    GradeModule,
-    GoogleAuthModule,
-    UserModule,
+    UserCourseModule,
+    GoogleAuthModule
+
   ],
   controllers: [],
   providers: [],

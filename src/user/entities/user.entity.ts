@@ -1,13 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({name: 'user'})
 export class UserEntity {
+
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string
 
   @Column()
   email: string;
 
-  @Column()
+  @Column() 
   displayName: string;
+
+  @OneToMany(() => UserCourseEntity, (user) => user.user)
+  users: UserCourseEntity[]
 }

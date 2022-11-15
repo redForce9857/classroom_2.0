@@ -8,8 +8,10 @@ import { GoogleAuthGuard } from './utils/guards';
 @Controller('auth')
 export class GoogleAuthController {
   constructor(
-    @Inject(GoogleAuthService) private readonly authService: GoogleAuthService,
+    @Inject(GoogleAuthService) 
+    private readonly authService: GoogleAuthService,
   ) {}
+
   @Get('google/login')
   // @UseGuards(AuthGuard('google'))
   @UseGuards(GoogleAuthGuard)
