@@ -23,7 +23,7 @@ export class AssignmentEntity {
 
   // if its right
   @ManyToOne(() => CourseEntity, (course) => course.assignments)
-  courseId: CourseEntity;
+  course: CourseEntity;
 
   @Column({ default: true })
   allStudents: boolean;
