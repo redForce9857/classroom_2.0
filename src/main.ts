@@ -47,13 +47,15 @@ import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(session({
-    secret:'sessionSecret',
-    saveUninitialized:false,
-    cookie:{
-      maxAge:60000,
-    }
-  }))
+  app.use(
+    session({
+      secret: 'sessionSecret',
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 60000,
+      },
+    })
+  );
   app.use(passport.initialize());
   app.use(passport.session());
   const config = new DocumentBuilder()
@@ -63,7 +65,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  
+
   const configService = app.get(ConfigService);
   const PORT = configService.get('PORT');
   // const PORT = 3000;

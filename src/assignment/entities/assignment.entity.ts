@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+//nigga
+import { CourseEntity } from 'src/course/entities/course.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity({ name: 'assignments' })
 export class AssignmentEntity {
@@ -13,8 +21,12 @@ export class AssignmentEntity {
   link: string;
 
   // if its right
-  @Column()
-  courseIds: Array<any>;
+  @ManyToOne(
+    () => CourseEntity,
+    (courseeee: CourseEntity) => courseeee.assignments
+  )
+  @JoinColumn({ name: 'course_id' })
+  course: CourseEntity;
 
   @Column({ default: true })
   allStudents: boolean;
