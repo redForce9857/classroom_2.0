@@ -4,18 +4,20 @@ import { UpdateCourseDto } from "./dto/update-course.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CourseEntity } from "./entities/course.entity";
+import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 
 @Injectable()
 export class CourseService {
   constructor(
     @InjectRepository(CourseEntity)
-    private readonly courseRepository: Repository<CourseEntity>
+    private readonly courseRepository: Repository<CourseEntity>,
+    // @InjectRepository(UserCourseEntity)
+    // private readonly userCourseRepository: Repository<UserCourseEntity>
   ) {}
 
   async create(createCourseDto: CreateCourseDto): Promise<CourseEntity> {
     const newCourse = new CourseEntity();
     Object.assign(newCourse, createCourseDto);
     return await this.courseRepository.save(newCourse);
-      
   }
 }
