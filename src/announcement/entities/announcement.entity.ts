@@ -12,11 +12,11 @@ export class AnnouncementEntity {
   type: string;
 
   @Column()
-  createdAt: Date;
+  created_at: Date;
 
   @Column()
-  updatedAt: Date;
+  updated_at: Date;
 
   @ManyToOne(() => StreamEntity)
-  announcement_id: AnnouncementEntity;
+  announcement_: AnnouncementEntity;
 }

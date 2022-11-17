@@ -1,5 +1,5 @@
-import { CourseEntity } from "src/course/entities/course.entity";
-import { GradeEntity } from "src/grade/entities/grade.entity";
+import { CourseEntity } from 'src/course/entities/course.entity';
+import { GradeEntity } from 'src/grade/entities/grade.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,9 +7,9 @@ import {
   ManyToOne,
   OneToOne,
   JoinColumn,
-} from "typeorm";
+} from 'typeorm';
 
-@Entity({ name: "assignments" })
+@Entity({ name: 'assignments' })
 export class AssignmentEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,17 +18,17 @@ export class AssignmentEntity {
   topic: string;
 
   // Необязательное поле
-  @Column({ default: "" })
+  @Column({ default: '' })
   link: string;
 
   // if its right
-  @ManyToOne(() => CourseEntity, (course) => course.assignments)
-  course: CourseEntity;
+  @ManyToOne(() => CourseEntity, (course) => course.assignments_)
+  course_: CourseEntity;
 
   @Column({ default: true })
-  allStudents: boolean;
+  all_students: boolean;
 
   @OneToOne(() => GradeEntity)
-  @JoinColumn({ name: "grade_id" })
-  gradeId: GradeEntity;
+  @JoinColumn({ name: 'grade_id' })
+  grade_: GradeEntity;
 }

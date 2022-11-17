@@ -1,12 +1,12 @@
 // Задать вопрос по поводу тогоЮ чтобы не экспортировать
 // конфигурацию, а экспортировать модуль
 
-import { DataSource, DataSourceOptions } from "typeorm";
-import * as dotenv from "dotenv";
+import { DataSource, DataSourceOptions } from 'typeorm';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 export const dataSourceOptions: DataSourceOptions = {
-  type: "postgres",
+  type: 'postgres',
   host: process.env.POSTGRES_HOST,
   port: +process.env.POSTGRES_PORT,
   username: process.env.POSTGRES_USER,

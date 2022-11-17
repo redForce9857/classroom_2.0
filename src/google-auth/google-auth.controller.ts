@@ -1,4 +1,11 @@
-import { Controller, Get, Inject, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  Redirect,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { GoogleAuthService } from './google-auth.service';
@@ -8,8 +15,8 @@ import { GoogleAuthGuard } from './utils/guards';
 @Controller('auth')
 export class GoogleAuthController {
   constructor(
-    @Inject(GoogleAuthService) 
-    private readonly authService: GoogleAuthService,
+    @Inject(GoogleAuthService)
+    private readonly authService: GoogleAuthService
   ) {}
 
   @Get('google/login')
@@ -19,6 +26,7 @@ export class GoogleAuthController {
   }
 
   @Get('google/redirect')
+  @Redirect(`https:localhost:${process.env.PORT}/courses`)
   @UseGuards(GoogleAuthGuard)
   async redirect(@Req() request: Request) {
     return request.user;
