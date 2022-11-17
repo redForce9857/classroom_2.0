@@ -14,10 +14,9 @@ export class CourseController {
     return this.courseService.create(createCourseDto);
   }
 
-  @Get()
-  getAll(){}
+  @Get("get-all")
+  async getAll(){
+   return this.courseService.find();
+  }
 
-
-  @Delete()
-  delete(){}
 }
