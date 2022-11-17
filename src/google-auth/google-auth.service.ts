@@ -4,8 +4,6 @@ import { Profile } from 'passport';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateGoogleAuthDto } from './dto/create-google-auth.dto';
-import { UpdateGoogleAuthDto } from './dto/update-google-auth.dto';
-import { UserDetails } from './utils/types';
 
 @Injectable()
 export class GoogleAuthService {

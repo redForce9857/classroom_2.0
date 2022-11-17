@@ -13,7 +13,6 @@ export class GoogleAuthController {
   ) {}
 
   @Get('google/login')
-  // @UseGuards(AuthGuard('google'))
   @UseGuards(GoogleAuthGuard)
   async Login() {
     return await { msg: 'google auth' };
@@ -22,7 +21,6 @@ export class GoogleAuthController {
   @Get('google/redirect')
   @UseGuards(GoogleAuthGuard)
   async redirect(@Req() request: Request) {
-    
     return request.user;
   }
 }
