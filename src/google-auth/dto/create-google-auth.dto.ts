@@ -1,4 +1,5 @@
 export class CreateGoogleAuthDto {
   email: string;
-  displayName: string;
+  display_name: string;
+  access_token:string;
 }

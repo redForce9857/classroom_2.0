@@ -1,7 +1,7 @@
 import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'user' })
+@Entity({ name: "user" })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: string;
@@ -11,6 +11,9 @@ export class UserEntity {
 
   @Column()
   display_name: string;
+
+  @Column()
+  access_token: string;
 
   @OneToMany(() => UserCourseEntity, (user) => user.user_)
   users_: UserCourseEntity[];

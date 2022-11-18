@@ -13,11 +13,11 @@ export class GoogleAuthService {
     private readonly userRepo: Repository<UserEntity>
   ) {}
 
-  async validateUser(dto: CreateGoogleAuthDto, token) {
+  async validateUser(dto: CreateGoogleAuthDto) {
     const user = await this.userRepo.findOneBy({ email: dto.email });
     if (user) {
       //update later
-      return { accessToken: token, user: user };
+      return;
     }
     const newUser = this.create(dto);
     return newUser;
