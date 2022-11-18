@@ -11,13 +11,16 @@ export class CourseService {
   constructor(
     @InjectRepository(CourseEntity)
     private readonly courseRepository: Repository<CourseEntity>,
-    // @InjectRepository(UserCourseEntity)
-    // private readonly userCourseRepository: Repository<UserCourseEntity>
+
   ) {}
 
   async create(createCourseDto: CreateCourseDto): Promise<CourseEntity> {
     const newCourse = new CourseEntity();
     Object.assign(newCourse, createCourseDto);
     return await this.courseRepository.save(newCourse);
+  }
+
+  async find(){
+    return  this.courseRepository.find()
   }
 }

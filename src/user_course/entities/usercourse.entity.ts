@@ -1,13 +1,6 @@
 import { CourseEntity } from 'src/course/entities/course.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from '../enum/role.enum';
 
 @Entity({ name: 'user_course_middle_table' })

@@ -1,17 +1,19 @@
 import {
+  ConsoleLogger,
   Controller,
   Get,
   Inject,
-  Redirect,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { GoogleAuthService } from './google-auth.service';
 import { GoogleAuthStrategy } from './utils/googleStrategy';
 import { GoogleAuthGuard } from './utils/guards';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class GoogleAuthController {
   constructor(
@@ -22,11 +24,9 @@ export class GoogleAuthController {
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
   async Login() {
-    return await { msg: 'google auth' };
+    return { msg: 'google auth' };
   }
-
   @Get('google/redirect')
-  @Redirect(`https:localhost:${process.env.PORT}/courses`)
   @UseGuards(GoogleAuthGuard)
   async redirect(@Req() request: Request) {
     return request.user;
