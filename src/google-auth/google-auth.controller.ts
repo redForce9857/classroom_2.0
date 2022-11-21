@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Inject,
+  Redirect,
   Req,
   UseGuards,
 } from "@nestjs/common";
@@ -29,7 +30,9 @@ export class GoogleAuthController {
 
   @Get("google/redirect")
   @UseGuards(GoogleAuthGuard)
+  @Redirect('http://localhost:3000/courses/bitch')
   async redirect(@Req() request: Request) {
+    console.log('im in');
     return request.user;
   }
 }

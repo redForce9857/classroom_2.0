@@ -1,3 +1,4 @@
+
 import { Injectable } from "@nestjs/common";
 import { CreateCourseDto } from "./dto/create-course.dto";
 import { UpdateCourseDto } from "./dto/update-course.dto";
@@ -5,6 +6,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CourseEntity } from "./entities/course.entity";
 import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
+
 
 @Injectable()
 export class CourseService {
@@ -23,4 +25,17 @@ export class CourseService {
     const courses = await this.courseRepository.find();
     return courses;
   }
+
+  findOne(id: number) {
+    return `This action returns a #${id} course`;
+  }
+
+  update(id: number, updateCourseDto: UpdateCourseDto) {
+    return `This action updates a #${id} course`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} course`;
+  }
+
 }

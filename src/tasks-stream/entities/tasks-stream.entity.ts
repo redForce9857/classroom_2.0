@@ -11,4 +11,5 @@ export class TasksStreamEntity {
 
   @ManyToOne(() => CourseEntity, (courseeee) => courseeee.course_)
   course_: CourseEntity;
+
 }

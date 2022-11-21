@@ -18,4 +18,5 @@ export class StreamEntity {
   @OneToOne(() => CourseEntity)
   @JoinColumn({ name: 'course_id' })
   course_: CourseEntity;
+
 }

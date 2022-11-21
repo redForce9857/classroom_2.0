@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  MiddlewareConsumer,
+  RequestMethod,
+  NestModule,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { CourseModule } from './course/course.module';
@@ -11,6 +16,8 @@ import { UserModule } from './user/user.module';
 import { StreamModule } from './stream/stream.module';
 import { GradeModule } from './grade/grade.module';
 import { AnnouncementModule } from './announcement/announcement.module';
+import { AuthMiddleware } from './user/middlewares/auth.middleware';
+import { GoogleAuthController } from './google-auth/google-auth.controller';
 
 
 @Module({
@@ -30,4 +37,14 @@ import { AnnouncementModule } from './announcement/announcement.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: 'auth/(.*)', method: RequestMethod.ALL })
+      .forRoutes({
+        path: '*',
+        method: RequestMethod.ALL,
+      });
+  }
+}
