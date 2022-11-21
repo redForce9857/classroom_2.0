@@ -19,4 +19,5 @@ export class AnnouncementEntity {
 
   @ManyToOne(() => StreamEntity)
   announcement_: AnnouncementEntity;
+
 }

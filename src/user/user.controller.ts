@@ -3,9 +3,15 @@ import {
   Get,
   Post,
   Body,
+
   UsePipes,
   ValidationPipe,
   Req,
+
+  Patch,
+  Param,
+  Delete,
+
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';

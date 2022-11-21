@@ -20,19 +20,24 @@ export class CourseController {
     return this.courseService.create(createCourseDto);
   }
 
-<<<<<<< HEAD
-  @Get('bitch')
-  async getAll() {
-    console.log('nigga');
-    return { nigga: 'nigga' };
-=======
   @Get("get-all")
   @ApiOperation({ summary: "Get all courses" })
   async findAll() {
     return await this.courseService.find();
->>>>>>> c5d80df8dbf17e45a182036bb7247b145687f62a
   }
 
-  @Get("get-my-courses")
-  async getUser(@Req() req: Request) {}
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.courseService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+    return this.courseService.update(+id, updateCourseDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.courseService.remove(+id);
+  }
 }
