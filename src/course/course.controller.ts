@@ -22,8 +22,9 @@ export class CourseController {
     return this.courseService.create(createCourseDto);
   }
 
-  @Get('get-all')
+  @Get('bitch')
   async getAll() {
-    return this.courseService.find();
+    console.log('nigga');
+    return { nigga: 'nigga' };
   }
 }
