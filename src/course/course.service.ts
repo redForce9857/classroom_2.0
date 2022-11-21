@@ -10,8 +10,7 @@ import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 export class CourseService {
   constructor(
     @InjectRepository(CourseEntity)
-    private readonly courseRepository: Repository<CourseEntity>,
-
+    private readonly courseRepository: Repository<CourseEntity>
   ) {}
 
   async create(createCourseDto: CreateCourseDto): Promise<CourseEntity> {
@@ -20,7 +19,8 @@ export class CourseService {
     return await this.courseRepository.save(newCourse);
   }
 
-  async find(){
-    return  this.courseRepository.find()
+  async find() {
+    const courses = await this.courseRepository.find();
+    return courses;
   }
 }

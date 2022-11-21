@@ -25,8 +25,11 @@ export class GoogleAuthStrategy extends PassportStrategy(Strategy, 'google') {
       {
         email: profile.emails[0].value,
         display_name: profile.displayName,
+<<<<<<< HEAD
+=======
+        access_token:accessToken
+>>>>>>> c5d80df8dbf17e45a182036bb7247b145687f62a
       },
-      accessToken
     );
     done(null, user);
   }
