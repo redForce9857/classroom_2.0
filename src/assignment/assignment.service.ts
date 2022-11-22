@@ -1,7 +1,7 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { AssignmentEntity } from "./entities/assigments.entity";
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AssignmentEntity } from './entities/assignment.entity';
 @Injectable()
 export class AssignmentService {
   constructor(

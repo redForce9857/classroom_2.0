@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AssignmentController } from './assignment.controller';
 import { AssignmentService } from './assignment.service';
-import { AssignmentEntity } from './entities/assigments.entity';
-
-
+import { AssignmentEntity } from './entities/assignment.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AssignmentEntity])],

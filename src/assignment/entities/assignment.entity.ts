@@ -1,10 +1,11 @@
-//nigga
 import { CourseEntity } from 'src/course/entities/course.entity';
+import { GradeEntity } from 'src/grade/entities/grade.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  OneToOne,
   JoinColumn,
 } from 'typeorm';
 
@@ -21,16 +22,13 @@ export class AssignmentEntity {
   link: string;
 
   // if its right
-  @ManyToOne(
-    () => CourseEntity,
-    (courseeee: CourseEntity) => courseeee.assignments
-  )
-  @JoinColumn({ name: 'course_id' })
-  course: CourseEntity;
+  @ManyToOne(() => CourseEntity, (course) => course.assignments_)
+  course_: CourseEntity;
 
   @Column({ default: true })
-  allStudents: boolean;
+  all_students: boolean;
 
-  @Column()
-  gradeId: boolean;
+  @OneToOne(() => GradeEntity)
+  @JoinColumn({ name: 'grade_id' })
+  grade_: GradeEntity;
 }
