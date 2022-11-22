@@ -27,7 +27,7 @@ export class UserController {
   async findAll() {
     return this.userService.findAll();
   }
-  
+
   @UsePipes(new ValidationPipe())
   @Post("register")
   async createUser(
@@ -38,14 +38,14 @@ export class UserController {
   }
 
   @UsePipes(new ValidationPipe())
-    @Post("login")
-    async login(
-      @Body() loginUserDto: LoginUserDto
-    ): Promise<UserResponseInterface> {
-      const user = await this.userService.login(loginUserDto);
-      return this.userService.buildUserResponse(user);
-    }
-  
+  @Post("login")
+  async login(
+    @Body() loginUserDto: LoginUserDto
+  ): Promise<UserResponseInterface> {
+    const user = await this.userService.login(loginUserDto);
+    return this.userService.buildUserResponse(user);
+  }
+
   @Get("getem")
   async currentUser(
     @Req() request: ExpressRequestInterface
