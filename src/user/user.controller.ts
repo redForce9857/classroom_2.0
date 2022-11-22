@@ -3,15 +3,12 @@ import {
   Get,
   Post,
   Body,
-
   UsePipes,
   ValidationPipe,
   Req,
-
   Patch,
   Param,
   Delete,
-
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -43,7 +40,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post('login')
   async login(
-    @Body('user') loginUserDto: LoginUserDto
+    @Body() loginUserDto: LoginUserDto
   ): Promise<UserResponseInterface> {
     const user = await this.userService.login(loginUserDto);
     return this.userService.buildUserResponse(user);
