@@ -4,7 +4,7 @@ import { TasksStreamEntity } from 'src/tasks-stream/entities/tasks-stream.entity
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   JoinColumn,
   OneToMany,
   OneToOne,
@@ -13,14 +13,14 @@ import { generator } from '../idGen';
 
 @Entity({ name: 'courses' })
 export class CourseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: string = generator();
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
   @Column({ nullable: true })
-  room?: string;
+  room: string;
 
   @OneToMany(() => TasksStreamEntity, (taskStream) => taskStream.course_)
   course_?: TasksStreamEntity[];
