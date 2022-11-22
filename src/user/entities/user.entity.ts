@@ -1,14 +1,14 @@
-import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
+import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   BeforeInsert,
-} from 'typeorm';
-import { hash } from 'bcrypt';
+} from "typeorm";
+import { hash } from "bcrypt";
 
-@Entity({ name: 'user' })
+@Entity({ name: "user" })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: string;
@@ -16,12 +16,12 @@ export class UserEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   display_name: string;
 
   @Column({ nullable: true })
   password?: string;
-  @Column()
+  @Column({ nullable: true })
   access_token: string;
 
   @OneToMany(() => UserCourseEntity, (user) => user.user_)
