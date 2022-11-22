@@ -19,7 +19,6 @@ import { AnnouncementModule } from './announcement/announcement.module';
 import { AuthMiddleware } from './user/middlewares/auth.middleware';
 import { GoogleAuthController } from './google-auth/google-auth.controller';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -41,7 +40,11 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude({ path: 'auth/(.*)', method: RequestMethod.ALL })
+      .exclude(
+        { path: 'auth/(.*)', method: RequestMethod.ALL },
+        { path: 'user/register', method: RequestMethod.ALL },
+        { path: 'user/login', method: RequestMethod.ALL }
+      )
       .forRoutes({
         path: '*',
         method: RequestMethod.ALL,

@@ -21,7 +21,7 @@ export class UserEntity {
 
   @Column({ nullable: true })
   password?: string;
-  @Column()
+  @Column({ nullable: true })
   access_token: string;
 
   @OneToMany(() => UserCourseEntity, (user) => user.user_)
