@@ -1,12 +1,12 @@
-import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
+import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   BeforeInsert,
-} from 'typeorm';
-import { hash } from 'bcrypt';
+} from "typeorm";
+import { hash } from "bcrypt";
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -16,7 +16,7 @@ export class UserEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   display_name: string;
 
   @Column({ nullable: true })
