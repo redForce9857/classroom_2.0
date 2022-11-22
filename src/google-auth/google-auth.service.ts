@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { profile } from "console";
-import { Profile } from "passport";
-import { UserEntity } from "src/user/entities/user.entity";
-import { Repository } from "typeorm";
-import { CreateGoogleAuthDto } from "./dto/create-google-auth.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { profile } from 'console';
+import { Profile } from 'passport';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { Repository } from 'typeorm';
+import { CreateGoogleAuthDto } from './dto/create-google-auth.dto';
 
 @Injectable()
 export class GoogleAuthService {

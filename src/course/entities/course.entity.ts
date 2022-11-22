@@ -14,7 +14,6 @@ import { generator } from '../idGen';
 @Entity({ name: 'courses' })
 export class CourseEntity {
   @PrimaryGeneratedColumn()
-
   id: string = generator();
 
   @Column()
@@ -22,7 +21,6 @@ export class CourseEntity {
 
   @Column({ nullable: true })
   room?: string;
-
 
   @OneToMany(() => TasksStreamEntity, (taskStream) => taskStream.course_)
   course_?: TasksStreamEntity[];
@@ -34,5 +32,4 @@ export class CourseEntity {
 
   @OneToMany(() => UserCourseEntity, (section) => section.course_)
   sections_: UserCourseEntity[];
-
 }
