@@ -5,9 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CourseEntity } from './entities/course.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
-import dataSource from 'db/data-source';
 import { Repository } from 'typeorm';
-import { use } from 'passport';
 import { UserRole } from 'src/user_course/enum/role.enum';
 
 @Injectable()
