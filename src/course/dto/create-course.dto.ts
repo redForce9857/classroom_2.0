@@ -11,9 +11,4 @@ export class CreateCourseDto {
     example: '315',
   })
   readonly room: string;
-  @ApiProperty({
-    description: 'Раздел',
-    example: 'раздел А',
-  })
-  readonly section: string;
 }
