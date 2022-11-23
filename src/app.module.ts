@@ -46,7 +46,7 @@ export class AppModule implements NestModule {
         { path: 'user/login', method: RequestMethod.ALL }
       )
       .forRoutes({
-        path: '*',
+        path: "*",
         method: RequestMethod.ALL,
       });
   }

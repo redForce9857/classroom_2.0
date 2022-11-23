@@ -31,4 +31,12 @@ export class CourseController {
   async findAll() {
     return await this.courseService.find();
   }
+
+  @Get('test')
+  async bitch (){
+    return 'nigga';
+  }
+
+  @Get('get-my-courses')
+  async getUser(@Req() req: Request) {}
 }
