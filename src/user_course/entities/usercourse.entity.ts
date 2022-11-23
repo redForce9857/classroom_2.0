@@ -1,6 +1,12 @@
 import { CourseEntity } from 'src/course/entities/course.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserRole } from '../enum/role.enum';
 
 @Entity({ name: 'user_course_middle_table' })
@@ -8,10 +14,18 @@ export class UserCourseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @ManyToOne(() => CourseEntity, (course) => course.sections_)
+  @ManyToOne(() => CourseEntity)
+  @JoinColumn()
   course_: CourseEntity;
 
-  @ManyToOne(() => UserEntity, (user) => user.users_)
+  @Column()
+  user_id: number;
+
+  @Column()
+  course_id: string;
+
+  @ManyToOne(() => UserEntity)
+  @JoinColumn()
   user_: UserEntity;
 
   @Column({

@@ -8,6 +8,7 @@ import { use } from 'passport';
 import { UserResponseInterface } from './types/userResponse.interface';
 import { LoginUserDto } from './dto/login.dto';
 import { compare } from 'bcrypt';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -73,7 +74,16 @@ export class UserService {
   }
 
   async findById(id: number): Promise<UserEntity> {
-    return this.userRepo.findOneBy({ id: id.toString() });
+    return this.userRepo.findOneBy({ id: id });
+  }
+
+  async updateUser(
+    userId: number,
+    updateUserDto: UpdateUserDto
+  ): Promise<UserEntity> {
+    const user = await this.findById(userId);
+    Object.assign(user, updateUserDto);
+    return await this.userRepo.save(user);
   }
   generateJwt(user: UserEntity): string {
     return sign(

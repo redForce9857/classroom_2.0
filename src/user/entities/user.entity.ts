@@ -1,17 +1,17 @@
-import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
+import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   BeforeInsert,
-} from "typeorm";
-import { hash } from "bcrypt";
+} from 'typeorm';
+import { hash } from 'bcrypt';
 
 @Entity({ name: 'users' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   email: string;

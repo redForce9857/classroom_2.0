@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Param } from '@nestjs/common';
 import { Request } from 'express';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
+import { User } from 'src/user/decorators/user.decorator';
 
 @ApiTags('Courses')
 @Controller('courses')
@@ -14,14 +15,14 @@ export class CourseController {
     return this.courseService.create(createCourseDto);
   }
 
-  @Get('get-all')
+  @Get()
   @ApiOperation({ summary: 'Get all courses' })
-  async findAll() {
-    return await this.courseService.find();
+  async findAll(@User('id') id: number) {
+    return await this.courseService.getCourses(id);
   }
 
   @Get('test')
-  async bitch (){
+  async bitch() {
     return 'nigga';
   }
 
