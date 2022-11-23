@@ -31,7 +31,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post('register')
   async createUser(
-    @Body('user') createUserDto: CreateUserDto
+    @Body() createUserDto: CreateUserDto
   ): Promise<UserResponseInterface> {
     const user = await this.userService.createUser(createUserDto);
     return this.userService.buildUserResponse(user);
@@ -50,7 +50,6 @@ export class UserController {
   async currentUser(
     @Req() request: ExpressRequestInterface
   ): Promise<UserResponseInterface> {
-    console.log(request.user);
     return this.userService.buildUserResponse(request.user);
   }
 }

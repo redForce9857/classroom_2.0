@@ -4,19 +4,18 @@ import { TasksStreamEntity } from 'src/tasks-stream/entities/tasks-stream.entity
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
   JoinColumn,
   OneToMany,
   OneToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { generator } from '../idGen';
 
 @Entity({ name: 'courses' })
 export class CourseEntity {
   @PrimaryGeneratedColumn()
-  id: string = generator();
+  id: number;
 
-  @Column()
+  @Column({unique: true})
   title: string;
 
   @Column({ nullable: true })
