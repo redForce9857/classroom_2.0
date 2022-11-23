@@ -25,6 +25,9 @@ export class CourseService {
     Object.assign(newCourse, createCourseDto);
     newCourse = await this.courseRepository.save(newCourse);
 
+    // let newCourse = this.courseRepository.create(createCourseDto);
+    // newCourse = await this.courseRepository.save(createCourseDto)
+
     await this.userCourseRepository
       .createQueryBuilder()
       .insert()
@@ -78,6 +81,11 @@ export class CourseService {
       .execute();
 
     return course;
+  }
+
+  async find() {
+    const courses = await this.courseRepository.find();
+    return courses;
   }
 
   findOne(id: number) {

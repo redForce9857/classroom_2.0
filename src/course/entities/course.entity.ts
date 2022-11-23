@@ -6,14 +6,14 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryColumn,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { generator } from '../idGen';
 
 @Entity({ name: 'courses' })
 export class CourseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: string = generator();
 
   @Column({ unique: true })
