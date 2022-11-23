@@ -1,19 +1,22 @@
 import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
 import { AssignmentEntity } from 'src/assignment/entities/assignment.entity';
 import { TasksStreamEntity } from 'src/tasks-stream/entities/tasks-stream.entity';
+import { generator } from '../idGen';
+
 import {
   Column,
   Entity,
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from 'typeorm';
 
 @Entity({ name: 'courses' })
 export class CourseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+
+  @PrimaryColumn()
+  id: string = generator();
 
   @Column({unique: true})
   title: string;

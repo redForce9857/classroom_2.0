@@ -17,13 +17,15 @@ export class CourseService {
     private readonly userCourseRepository: Repository<UserCourseEntity>
   ) {}
 
-  async create(
-    createCourseDto: CreateCourseDto,
-    user: UserEntity
-  ): Promise<CourseEntity> {
-    let newCourse = this.courseRepository.create(createCourseDto);
-    newCourse = await this.courseRepository.save(createCourseDto);
+  async create(createCourseDto: CreateCourseDto, user: UserEntity): Promise<CourseEntity> {
+ 
+    let newCourse = new CourseEntity()
+    Object.assign(newCourse, createCourseDto)
+    newCourse = await this.courseRepository.save(newCourse)
 
+    // let newCourse = this.courseRepository.create(createCourseDto);
+    // newCourse = await this.courseRepository.save(createCourseDto)
+    
     await this.userCourseRepository
       .createQueryBuilder()
       .insert()
@@ -61,7 +63,7 @@ export class CourseService {
     return courses;
   }
 
-  async joinUserToCourse(course_code: number, user: UserEntity) {
+  async joinUserToCourse( course_code:string, user: UserEntity){
     const course = await this.courseRepository.findOne({
       where: {
         id: course_code,
@@ -76,7 +78,12 @@ export class CourseService {
       .values([{ role: UserRole.STUDENT, course_: course, user_: user }])
       .execute();
 
-    return course;
+    return course
+  }
+
+  async find() {
+    const courses = await this.courseRepository.find();
+    return courses;
   }
 
   findOne(id: number) {
