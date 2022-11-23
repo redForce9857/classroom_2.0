@@ -6,16 +6,17 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
-  OneToOne,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { generator } from '../idGen';
 
 @Entity({ name: 'courses' })
 export class CourseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string = generator();
 
-  @Column({unique: true})
+  @Column({ unique: true })
   title: string;
 
   @Column({ nullable: true })

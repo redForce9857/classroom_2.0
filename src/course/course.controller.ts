@@ -22,7 +22,7 @@ export class CourseController {
 
   @Post('join/:id')
   async joinUserToCourse(
-    @Param('id') course_code: number,
+    @Param('id') course_code: string,
     @UserDecorator() user: UserEntity
   ) {
     return await this.courseService.joinUserToCourse(course_code, user);
@@ -30,7 +30,7 @@ export class CourseController {
 
   @Get()
   @ApiOperation({ summary: 'Get all courses' })
-  async findAll(@User('id') id: number) {
+  async findAll(@UserDecorator('id') id: number) {
     return await this.courseService.getCourses(id);
   }
 

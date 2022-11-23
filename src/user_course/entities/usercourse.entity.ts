@@ -18,12 +18,6 @@ export class UserCourseEntity {
   @JoinColumn()
   course_: CourseEntity;
 
-  @Column()
-  user_id: number;
-
-  @Column()
-  course_id: string;
-
   @ManyToOne(() => UserEntity)
   @JoinColumn()
   user_: UserEntity;

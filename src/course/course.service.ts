@@ -21,8 +21,9 @@ export class CourseService {
     createCourseDto: CreateCourseDto,
     user: UserEntity
   ): Promise<CourseEntity> {
-    let newCourse = this.courseRepository.create(createCourseDto);
-    newCourse = await this.courseRepository.save(createCourseDto);
+    let newCourse = new CourseEntity();
+    Object.assign(newCourse, createCourseDto);
+    newCourse = await this.courseRepository.save(newCourse);
 
     await this.userCourseRepository
       .createQueryBuilder()
@@ -61,7 +62,7 @@ export class CourseService {
     return courses;
   }
 
-  async joinUserToCourse(course_code: number, user: UserEntity) {
+  async joinUserToCourse(course_code: string, user: UserEntity) {
     const course = await this.courseRepository.findOne({
       where: {
         id: course_code,
