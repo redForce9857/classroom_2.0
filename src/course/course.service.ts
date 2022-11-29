@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CourseEntity } from './entities/course.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { UserRole } from 'src/user_course/enum/role.enum';
 
 @Injectable()
@@ -17,6 +21,7 @@ export class CourseService {
     private readonly userCourseRepository: Repository<UserCourseEntity>
   ) {}
 
+  // Create course related to current user
   async create(
     createCourseDto: CreateCourseDto,
     user: UserEntity
@@ -24,9 +29,6 @@ export class CourseService {
     let newCourse = new CourseEntity();
     Object.assign(newCourse, createCourseDto);
     newCourse = await this.courseRepository.save(newCourse);
-
-    // let newCourse = this.courseRepository.create(createCourseDto);
-    // newCourse = await this.courseRepository.save(createCourseDto)
 
     await this.userCourseRepository
       .createQueryBuilder()
@@ -39,6 +41,7 @@ export class CourseService {
   }
 
   // Get all courses related to current user.
+  // TODO: Also get role of this user related to course
   async getCourses(currentUserId: number) {
     const coursesArr: object[] = [];
     const courses = this.userCourseRepository
@@ -64,7 +67,7 @@ export class CourseService {
       });
     return courses;
   }
-
+  // Join course by code as student
   async joinUserToCourse(course_code: string, user: UserEntity) {
     const course = await this.courseRepository.findOne({
       where: {
@@ -73,6 +76,18 @@ export class CourseService {
     });
     if (!course) throw new NotFoundException('Course not found');
 
+    let checkinUser: UserCourseEntity;
+    await this.userCourseRepository
+      .findOne({
+        where: {
+          user_: { id: user.id },
+          course_: { id: course.id },
+        },
+      })
+      .then((data) => {
+        checkinUser = data;
+      });
+    if (checkinUser) throw new ConflictException('U already in this course');
     await this.userCourseRepository
       .createQueryBuilder()
       .insert()
@@ -92,11 +107,28 @@ export class CourseService {
     return `This action returns a #${id} course`;
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return `This action updates a #${id} course`;
+  // Updates course
+  // Access only for Admin
+  async updateCourse(course_code: string, updateCourseDto: UpdateCourseDto) {
+    const updatedCourse = await this.courseRepository
+      .createQueryBuilder()
+      .update<CourseEntity>(CourseEntity)
+      .set(updateCourseDto)
+      .where('id = :id', { id: course_code })
+      .returning(['title', 'room'])
+      .updateEntity(true)
+      .execute();
+    return updatedCourse.raw[0];
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} course`;
+  // Delete course
+  // Access only for admin.
+  async remove(course_code: string) {
+    this.courseRepository
+      .createQueryBuilder('courses')
+      .delete()
+      .from(CourseEntity)
+      .where('id = :id', { id: course_code })
+      .execute();
   }
 }

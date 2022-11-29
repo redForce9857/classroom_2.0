@@ -24,7 +24,7 @@ export class UserEntity {
   @Column({ nullable: true })
   access_token: string;
 
-  @OneToMany(() => UserCourseEntity, (user) => user.user_)
+  @OneToMany(() => UserCourseEntity, (user) => user.user_, { cascade: true })
   users_: UserCourseEntity[];
 
   @BeforeInsert()

@@ -17,18 +17,26 @@ export class AssignmentEntity {
   @Column()
   topic: string;
 
+  @Column({ nullable: true })
+  description?: string;
+
+  @Column({ nullable: true })
+  theme?: string;
+
   // Необязательное поле
-  @Column({ default: '' })
-  link: string;
+  @Column({ default: '', nullable: true })
+  link?: string;
+
+  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  time: string;
 
   // if its right
   @ManyToOne(() => CourseEntity, (course) => course.assignments_)
   course_: CourseEntity;
 
-  @Column({ default: true })
-  all_students: boolean;
+  @Column({ default: true, nullable: true })
+  all_students?: boolean;
 
   @OneToOne(() => GradeEntity)
-  @JoinColumn({ name: 'grade_id' })
   grade_: GradeEntity;
 }

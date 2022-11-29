@@ -14,18 +14,18 @@ export class UserCourseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @ManyToOne(() => CourseEntity)
+  @ManyToOne(() => CourseEntity, { onDelete: 'CASCADE' })
   @JoinColumn()
   course_: CourseEntity;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn()
   user_: UserEntity;
 
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.TEACHER,
+    default: UserRole.ADMIN,
   })
   role: UserRole;
 }

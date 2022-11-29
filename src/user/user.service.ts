@@ -51,6 +51,7 @@ export class UserService {
       },
       where: { email: loginUserDto.email },
     });
+    console.log('user', user);
     if (!user) {
       throw new HttpException(
         'Credentials are not valid',

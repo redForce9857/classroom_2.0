@@ -27,9 +27,12 @@ export class CourseEntity {
 
   @OneToMany(() => AssignmentEntity, (assignment) => assignment.course_, {
     nullable: true,
+    cascade: true,
   })
   assignments_?: AssignmentEntity[];
 
-  @OneToMany(() => UserCourseEntity, (section) => section.course_)
+  @OneToMany(() => UserCourseEntity, (section) => section.course_, {
+    cascade: true,
+  })
   sections_: UserCourseEntity[];
 }
