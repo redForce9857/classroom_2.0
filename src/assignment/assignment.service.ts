@@ -2,6 +2,7 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAssignmentDto } from './dto/createAssignment.dto';
+import { UpdateAssignmentDto } from './dto/updateAssignment.dto';
 import { AssignmentEntity } from './entities/assignment.entity';
 @Injectable()
 export class AssignmentService {
@@ -50,5 +51,15 @@ export class AssignmentService {
     return HttpStatus.OK;
   }
 
-  async update(ass_id: number) {}
+  async update(ass_id: number, updateAssignmentDto: UpdateAssignmentDto) {
+    const updatedCourse = await this.assignmentRepo
+      .createQueryBuilder()
+      .update<AssignmentEntity>(AssignmentEntity)
+      .set(updateAssignmentDto)
+      .where('id = :id', { id: ass_id })
+      .returning(['topic', 'description', 'theme', 'id', 'time'])
+      .updateEntity(true)
+      .execute();
+    return updatedCourse.raw[0];
+  }
 }

@@ -1,3 +1,5 @@
+// TODO : ADd guards depending on course role
+// choose between params an smth
 import {
   Body,
   Controller,
@@ -16,6 +18,7 @@ import { AuthGuard } from 'src/user/guards/user.guard';
 import { UserRole } from 'src/user_course/enum/role.enum';
 import { AssignmentService } from './assignment.service';
 import { CreateAssignmentDto } from './dto/createAssignment.dto';
+import { UpdateAssignmentDto } from './dto/updateAssignment.dto';
 
 @Controller('assignments')
 export class AssignmentController {
@@ -40,16 +43,19 @@ export class AssignmentController {
   }
 
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
-  @UseGuards(AuthGuard, RolesGuard)
-  @Delete('/delete/ass_id')
+  @UseGuards(AuthGuard)
+  @Delete('/delete/:ass_id')
   async deleteAss(@Param('ass_id') ass_id: string) {
     return await this.assignmentService.delete(ass_id);
   }
 
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
-  @UseGuards(AuthGuard, RolesGuard)
-  @Patch('/update/ass_id')
-  async updateAss(@Param('ass_id') id: number) {
-    return await this.assignmentService.update(id);
+  @UseGuards(AuthGuard)
+  @Patch('/update/:ass_id')
+  async updateAss(
+    @Param('ass_id') id: number,
+    @Body() updateAssignmentDto: UpdateAssignmentDto
+  ) {
+    return await this.assignmentService.update(id, updateAssignmentDto);
   }
 }

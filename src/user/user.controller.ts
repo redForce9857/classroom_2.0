@@ -24,7 +24,6 @@ export class UserController {
 
   @Get()
   async findAll() {
-    console.log('bitch');
     return this.userService.findAll();
   }
 
