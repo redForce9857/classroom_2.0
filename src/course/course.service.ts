@@ -2,15 +2,15 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { CourseEntity } from './entities/course.entity';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
-import { Repository, UpdateResult } from 'typeorm';
-import { UserRole } from 'src/user_course/enum/role.enum';
+} from "@nestjs/common";
+import { CreateCourseDto } from "./dto/create-course.dto";
+import { UpdateCourseDto } from "./dto/update-course.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { CourseEntity } from "./entities/course.entity";
+import { UserEntity } from "src/user/entities/user.entity";
+import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
+import { Repository, UpdateResult } from "typeorm";
+import { UserRole } from "src/user_course/enum/role.enum";
 
 @Injectable()
 export class CourseService {
@@ -44,7 +44,7 @@ export class CourseService {
   // TODO: Also get role of this user related to course
   async getCourses(currentUserId: number) {
     const coursesArr: object[] = [];
-    const courses = this.userCourseRepository
+    await this.userCourseRepository
       .find({
         relations: {
           course_: true,
@@ -55,17 +55,19 @@ export class CourseService {
         where: { user_: { id: currentUserId } },
       })
       .then((data) => {
+        console.log(data);
         for (let i = 0; i < data.length; i++) {
           const course: object = {
             course_code: data[i].course_.id,
             title: data[i].course_.title,
             room: data[i].course_.room,
+            role: data[i].role,
           };
           coursesArr.push(course);
         }
-        return coursesArr;
       });
-    return courses;
+
+    return coursesArr;
   }
   // Join course by code as student
   async joinUserToCourse(course_code: string, user: UserEntity) {
@@ -74,7 +76,7 @@ export class CourseService {
         id: course_code,
       },
     });
-    if (!course) throw new NotFoundException('Course not found');
+    if (!course) throw new NotFoundException("Course not found");
 
     let checkinUser: UserCourseEntity;
     await this.userCourseRepository
@@ -87,7 +89,7 @@ export class CourseService {
       .then((data) => {
         checkinUser = data;
       });
-    if (checkinUser) throw new ConflictException('U already in this course');
+    if (checkinUser) throw new ConflictException("U already in this course");
     await this.userCourseRepository
       .createQueryBuilder()
       .insert()
@@ -114,8 +116,8 @@ export class CourseService {
       .createQueryBuilder()
       .update<CourseEntity>(CourseEntity)
       .set(updateCourseDto)
-      .where('id = :id', { id: course_code })
-      .returning(['title', 'room'])
+      .where("id = :id", { id: course_code })
+      .returning(["title", "room"])
       .updateEntity(true)
       .execute();
     return updatedCourse.raw[0];
@@ -125,10 +127,30 @@ export class CourseService {
   // Access only for admin.
   async remove(course_code: string) {
     this.courseRepository
-      .createQueryBuilder('courses')
+      .createQueryBuilder("courses")
       .delete()
       .from(CourseEntity)
-      .where('id = :id', { id: course_code })
+      .where("id = :id", { id: course_code })
       .execute();
+  }
+
+  async getUsers(id: string) {
+    const users = await this.userCourseRepository
+      .find({
+        relations: { user_: true },
+        select: { user_: { display_name: true }, role: true },
+        where: { course_: { id: id } },
+      })
+      .then((unparsed_users) => {
+        let parsed_users = [];
+        for (const user of unparsed_users) {
+          parsed_users.push({
+            role: user.role,
+            display_name: user.user_.display_name,
+          });
+        }
+        return parsed_users;
+      });
+    return users;
   }
 }

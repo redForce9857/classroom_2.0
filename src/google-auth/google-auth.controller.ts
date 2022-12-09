@@ -16,7 +16,6 @@ import { UserService } from 'src/user/user.service';
 import { GoogleAuthService } from './google-auth.service';
 import { GoogleAuthStrategy } from './utils/googleStrategy';
 import { GoogleAuthGuard } from './utils/guards';
-import { verify } from 'jsonwebtoken';
 
 @ApiTags('Auth')
 @Controller('auth')

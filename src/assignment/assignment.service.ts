@@ -1,9 +1,9 @@
-import { HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateAssignmentDto } from './dto/createAssignment.dto';
-import { UpdateAssignmentDto } from './dto/updateAssignment.dto';
-import { AssignmentEntity } from './entities/assignment.entity';
+import { HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { CreateAssignmentDto } from "./dto/createAssignment.dto";
+import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
+import { AssignmentEntity } from "./entities/assignment.entity";
 @Injectable()
 export class AssignmentService {
   constructor(
@@ -11,10 +11,21 @@ export class AssignmentService {
     private readonly assignmentRepo: Repository<AssignmentEntity>
   ) {}
 
+  // TODO: Add comments count
   async find(course_code: string) {
     const assignments = await this.assignmentRepo.find({
-      select: { course_: { id: true } },
+      select: {
+        topic: true,
+        description: true,
+        theme: true,
+        time: true,
+        deadline: true,
+      },
+      where: {
+        course_: { id: course_code },
+      },
     });
+    console.log(assignments);
     return assignments;
   }
 
@@ -42,10 +53,10 @@ export class AssignmentService {
 
   async delete(ass_id: string) {
     this.assignmentRepo
-      .createQueryBuilder('courses')
+      .createQueryBuilder("courses")
       .delete()
       .from(AssignmentEntity)
-      .where('id = :id', { id: ass_id })
+      .where("id = :id", { id: ass_id })
       .execute();
 
     return HttpStatus.OK;
@@ -56,8 +67,8 @@ export class AssignmentService {
       .createQueryBuilder()
       .update<AssignmentEntity>(AssignmentEntity)
       .set(updateAssignmentDto)
-      .where('id = :id', { id: ass_id })
-      .returning(['topic', 'description', 'theme', 'id', 'time'])
+      .where("id = :id", { id: ass_id })
+      .returning(["topic", "description", "theme", "id", "time"])
       .updateEntity(true)
       .execute();
     return updatedCourse.raw[0];

@@ -1,5 +1,5 @@
-import { CourseEntity } from 'src/course/entities/course.entity';
-import { GradeEntity } from 'src/grade/entities/grade.entity';
+import { CourseEntity } from "src/course/entities/course.entity";
+import { GradeEntity } from "src/grade/entities/grade.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,9 +7,9 @@ import {
   ManyToOne,
   OneToOne,
   JoinColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity({ name: 'assignments' })
+@Entity({ name: "assignments" })
 export class AssignmentEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -24,10 +24,10 @@ export class AssignmentEntity {
   theme?: string;
 
   // Необязательное поле
-  @Column({ default: '', nullable: true })
+  @Column({ default: "", nullable: true })
   link?: string;
 
-  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   time: string;
 
   // if its right
@@ -39,4 +39,10 @@ export class AssignmentEntity {
 
   @OneToOne(() => GradeEntity)
   grade_: GradeEntity;
+
+  @Column({ nullable: true })
+  deadline: Date;
+
+  @Column({ nullable: true })
+  maxGrade: number;
 }

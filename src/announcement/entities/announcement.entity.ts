@@ -1,6 +1,7 @@
-import { PrimaryGeneratedColumn, Entity, Column, ManyToOne } from 'typeorm';
-import { StreamEntity } from 'src/stream/entities/stream.entity';
-@Entity({ name: 'announcement' })
+import { PrimaryGeneratedColumn, Entity, Column, ManyToOne } from "typeorm";
+import { StreamEntity } from "src/stream/entities/stream.entity";
+import { CourseEntity } from "src/course/entities/course.entity";
+@Entity({ name: "announcement" })
 export class AnnouncementEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,15 +10,11 @@ export class AnnouncementEntity {
   text: string;
 
   @Column()
-  type: string;
-
-  @Column()
   created_at: Date;
 
   @Column()
   updated_at: Date;
 
-  @ManyToOne(() => StreamEntity)
-  announcement_: AnnouncementEntity;
-
+  @ManyToOne(() => CourseEntity)
+  course_: CourseEntity;
 }
