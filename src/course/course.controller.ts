@@ -37,7 +37,7 @@ export class CourseController {
     return await this.courseService.create(createCourseDto, user);
   }
 
-  @Post("join/:id")
+  @Post(":id/join")
   async joinUserToCourse(
     @Param("id") course_code: string,
     @UserDecorator() user: UserEntity
@@ -47,14 +47,14 @@ export class CourseController {
 
   @Roles(UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
-  @Delete("delete/:id")
+  @Delete(":id/delete")
   async deleteCourse(@Param("id") course_code: string) {
     await this.courseService.remove(course_code);
   }
 
   @Roles(UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
-  @Patch("update/:id")
+  @Patch(":id/update")
   async updateCourse(
     @Param("id") course_code: string,
     @Body() updateCourseDto: UpdateCourseDto
@@ -68,8 +68,8 @@ export class CourseController {
     return await this.courseService.getCourses(id);
   }
 
-  @Get("users/:id")
-  async getUsers(@Param("id") id: string) {
-    return await this.courseService.getUsers(id);
+  @Get(":id/users")
+  async getUsers(@Param("id") course_id: string) {
+    return await this.courseService.getUsers(course_id);
   }
 }

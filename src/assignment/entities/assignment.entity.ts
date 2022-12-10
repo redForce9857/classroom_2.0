@@ -37,9 +37,6 @@ export class AssignmentEntity {
   @Column({ default: true, nullable: true })
   all_students?: boolean;
 
-  @OneToOne(() => GradeEntity)
-  grade_: GradeEntity;
-
   @Column({ nullable: true })
   deadline: Date;
 

@@ -1,5 +1,6 @@
 import { HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import { Repository } from "typeorm";
 import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
@@ -8,7 +9,9 @@ import { AssignmentEntity } from "./entities/assignment.entity";
 export class AssignmentService {
   constructor(
     @InjectRepository(AssignmentEntity)
-    private readonly assignmentRepo: Repository<AssignmentEntity>
+    private readonly assignmentRepo: Repository<AssignmentEntity>,
+    @InjectRepository(UserCourseEntity)
+    private readonly userCourseRepo: Repository<UserCourseEntity>
   ) {}
 
   // TODO: Add comments count
