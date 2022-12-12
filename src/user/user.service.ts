@@ -1,14 +1,13 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/user.dto';
-import { UserEntity } from './entities/user.entity';
-import { sign } from 'jsonwebtoken';
-import { use } from 'passport';
-import { UserResponseInterface } from './types/userResponse.interface';
-import { LoginUserDto } from './dto/login.dto';
-import { compare } from 'bcrypt';
-import { UpdateUserDto } from './dto/updateUser.dto';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { CreateUserDto } from "./dto/user.dto";
+import { UserEntity } from "./entities/user.entity";
+import { sign } from "jsonwebtoken";
+import { UserResponseInterface } from "./types/userResponse.interface";
+import { LoginUserDto } from "./dto/login.dto";
+import { compare } from "bcrypt";
+import { UpdateUserDto } from "./dto/updateUser.dto";
 
 @Injectable()
 export class UserService {
@@ -18,8 +17,7 @@ export class UserService {
   ) {}
 
   async findAll() {
-    const users = await this.userRepo.find();
-    return users;
+    return await this.userRepo.find();
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
@@ -31,7 +29,7 @@ export class UserService {
     });
     if (userByEmail || userByUsername) {
       throw new HttpException(
-        'User already exists',
+        "User already exists",
         HttpStatus.UNPROCESSABLE_ENTITY
       );
     }
@@ -50,10 +48,10 @@ export class UserService {
       },
       where: { email: loginUserDto.email },
     });
-    console.log('user', user);
+    console.log("user", user);
     if (!user) {
       throw new HttpException(
-        'Credentials are not valid',
+        "Credentials are not valid",
         HttpStatus.UNPROCESSABLE_ENTITY
       );
     }
@@ -65,7 +63,7 @@ export class UserService {
 
     if (!isPasswordCorrect) {
       throw new HttpException(
-        'Password is wrong',
+        "Password is wrong",
         HttpStatus.UNPROCESSABLE_ENTITY
       );
     }

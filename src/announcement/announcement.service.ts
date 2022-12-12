@@ -13,12 +13,10 @@ export class AnnouncementService {
   ) {}
 
   async find(course_id: string) {
-    const announcements = await this.announcementRepo.find({
+    return await this.announcementRepo.find({
       select: { text: true, created_at: true, updated_at: true },
       where: { course_: { id: course_id } },
     });
-
-    return announcements;
   }
 
   async update(
@@ -32,7 +30,7 @@ export class AnnouncementService {
     createAnnouncementDto: CreateAnnouncementDto,
     course_id: string
   ) {
-    let newAnnouncement = new AnnouncementEntity();
+    const newAnnouncement = new AnnouncementEntity();
 
     // Присваиваем свойству "course_id" код нынешнего курса
     createAnnouncementDto.course_id = course_id;

@@ -1,4 +1,4 @@
-import { HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import { Repository } from "typeorm";
@@ -55,7 +55,7 @@ export class AssignmentService {
   }
 
   async delete(ass_id: string) {
-    this.assignmentRepo
+    await this.assignmentRepo
       .createQueryBuilder("courses")
       .delete()
       .from(AssignmentEntity)

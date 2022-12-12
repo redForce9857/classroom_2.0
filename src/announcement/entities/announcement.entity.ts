@@ -1,12 +1,20 @@
 // TODO: Подумать о привязке файлов к объявлению.
-import { PrimaryGeneratedColumn, Entity, Column, ManyToOne } from "typeorm";
-import { StreamEntity } from "src/stream/entities/stream.entity";
+import {
+  PrimaryGeneratedColumn,
+  Entity,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
-import { timestamp } from "rxjs";
+import { CommentEntity } from "../../comment/entities/comment.entity";
 @Entity({ name: "announcement" })
 export class AnnouncementEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  author: string;
 
   @Column()
   text: string;
@@ -23,4 +31,7 @@ export class AnnouncementEntity {
 
   @ManyToOne(() => CourseEntity)
   course_: CourseEntity;
+
+  @OneToMany(() => CommentEntity, (comment) => comment.announcement)
+  comments: CommentEntity[];
 }

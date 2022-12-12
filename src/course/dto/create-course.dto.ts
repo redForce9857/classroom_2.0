@@ -1,14 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateCourseDto {
   @ApiProperty({
-    description: 'Название курса',
-    example: 'курс 1',
+    description: "Название курса",
+    example: "курс 1",
   })
   readonly title: string;
   @ApiProperty({
-    description: 'Аудитория',
-    example: '315',
+    description: "Аудитория",
+    example: "315",
   })
   readonly room: string;
 }

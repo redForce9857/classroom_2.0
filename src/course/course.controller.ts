@@ -3,26 +3,21 @@ import {
   Get,
   Post,
   Body,
-  Req,
   Param,
   Delete,
-  Put,
   UseGuards,
-  Res,
   Patch,
 } from "@nestjs/common";
-import { Request, Response } from "express";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CourseService } from "./course.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
-import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UpdateCourseDto } from "./dto/update-course.dto";
 import { Roles } from "src/user/decorator/roles.decorator";
 import { UserRole } from "src/user_course/enum/role.enum";
 import { AuthGuard } from "../user/guards/user.guard";
 import { RolesGuard } from "src/user/guards/roles.guard";
-import { ConnectableObservable } from "rxjs";
+import { UserDecorator } from "../user/decorator/user.decorator";
 
 @ApiTags("Courses")
 @Controller("courses")

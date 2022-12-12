@@ -1,5 +1,4 @@
 import {
-  ConsoleLogger,
   Controller,
   Get,
   Header,
@@ -8,17 +7,16 @@ import {
   Req,
   Res,
   UseGuards,
-} from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { UserService } from 'src/user/user.service';
-import { GoogleAuthService } from './google-auth.service';
-import { GoogleAuthStrategy } from './utils/googleStrategy';
-import { GoogleAuthGuard } from './utils/guards';
+} from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
+import { Request, Response } from "express";
+import { UserEntity } from "src/user/entities/user.entity";
+import { UserService } from "src/user/user.service";
+import { GoogleAuthService } from "./google-auth.service";
+import { GoogleAuthGuard } from "./utils/guards";
 
-@ApiTags('Auth')
-@Controller('auth')
+@ApiTags("Auth")
+@Controller("auth")
 export class GoogleAuthController {
   constructor(
     @Inject(UserService)
@@ -27,16 +25,17 @@ export class GoogleAuthController {
     private readonly authService: GoogleAuthService
   ) {}
 
-  @Get('google/login')
+  @Get("google/login")
   @UseGuards(GoogleAuthGuard)
   async Login() {
-    return { msg: 'google auth' };
+    return { msg: "google auth" };
   }
 
-  @Get('google/redirect')
+  @Get("google/redirect")
   @UseGuards(GoogleAuthGuard)
-  @Redirect('/courses/get-courses')
-  @Header('authorization', 'none')
+  @Redirect("/courses/get-courses")
+  @Header("authorization", "none")
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async redirect(@Req() request: Request, @Res() response: Response) {
     return this.userService.generateJwt(request.user as UserEntity);
   }

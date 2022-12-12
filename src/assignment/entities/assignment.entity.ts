@@ -1,13 +1,5 @@
 import { CourseEntity } from "src/course/entities/course.entity";
-import { GradeEntity } from "src/grade/entities/grade.entity";
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToOne,
-  JoinColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 
 @Entity({ name: "assignments" })
 export class AssignmentEntity {
