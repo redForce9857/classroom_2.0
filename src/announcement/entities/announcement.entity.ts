@@ -3,6 +3,7 @@ import { PrimaryGeneratedColumn, Entity, Column, ManyToOne } from "typeorm";
 import { StreamEntity } from "src/stream/entities/stream.entity";
 import { CourseEntity } from "src/course/entities/course.entity";
 import { timestamp } from "rxjs";
+import { UserEntity } from "src/user/entities/user.entity";
 @Entity({ name: "announcement" })
 export class AnnouncementEntity {
   @PrimaryGeneratedColumn()
@@ -23,4 +24,7 @@ export class AnnouncementEntity {
 
   @ManyToOne(() => CourseEntity)
   course_: CourseEntity;
+
+  @ManyToOne(() => UserEntity)
+  user_: UserEntity;
 }

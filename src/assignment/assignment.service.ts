@@ -1,5 +1,7 @@
 import { HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CourseEntity } from "src/course/entities/course.entity";
+import { UserEntity } from "src/user/entities/user.entity";
 import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import { Repository } from "typeorm";
 import { CreateAssignmentDto } from "./dto/createAssignment.dto";
@@ -10,8 +12,8 @@ export class AssignmentService {
   constructor(
     @InjectRepository(AssignmentEntity)
     private readonly assignmentRepo: Repository<AssignmentEntity>,
-    @InjectRepository(UserCourseEntity)
-    private readonly userCourseRepo: Repository<UserCourseEntity>
+    @InjectRepository(CourseEntity)
+    private readonly courseRepo: Repository<CourseEntity>
   ) {}
 
   // TODO: Add comments count
@@ -34,10 +36,17 @@ export class AssignmentService {
 
   async create(
     createAssignmentDto: CreateAssignmentDto,
-    id: string
+    id: string,
+    user: UserEntity
   ): Promise<AssignmentEntity> {
+    const current_course = await this.courseRepo.findOneBy({ id: id });
+    console.log(current_course);
     let newAssignment = new AssignmentEntity();
-    Object.assign(newAssignment, createAssignmentDto, { course_: id });
+    Object.assign(newAssignment, createAssignmentDto, {
+      course_: current_course,
+      user_: user,
+    });
+
     newAssignment = await this.assignmentRepo.save(newAssignment);
     // await this.assignmentRepo
     //   .createQueryBuilder()

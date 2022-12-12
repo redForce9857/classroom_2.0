@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CourseEntity } from "src/course/entities/course.entity";
+import { UserEntity } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateAnnouncementDto } from "./dto/createAnnouncementDto.dto";
 import { UpdateAnnouncementDto } from "./dto/updateAnnouncementDto.dto";
@@ -9,7 +11,9 @@ import { AnnouncementEntity } from "./entities/announcement.entity";
 export class AnnouncementService {
   constructor(
     @InjectRepository(AnnouncementEntity)
-    private readonly announcementRepo: Repository<AnnouncementEntity>
+    private readonly announcementRepo: Repository<AnnouncementEntity>,
+    @InjectRepository(CourseEntity)
+    private readonly courseRepo: Repository<CourseEntity>
   ) {}
 
   async find(course_id: string) {
@@ -30,14 +34,29 @@ export class AnnouncementService {
 
   async create(
     createAnnouncementDto: CreateAnnouncementDto,
-    course_id: string
+    course_id: string,
+    user: UserEntity
   ) {
     let newAnnouncement = new AnnouncementEntity();
 
-    // Присваиваем свойству "course_id" код нынешнего курса
-    createAnnouncementDto.course_id = course_id;
-    Object.assign(newAnnouncement, createAnnouncementDto);
+    const current_course = await this.courseRepo.findOneBy({ id: course_id });
+    Object.assign(newAnnouncement, createAnnouncementDto, {
+      course_: current_course,
+      user_: user,
+    });
 
-    return await this.announcementRepo.save(newAnnouncement);
+    await this.announcementRepo.save(newAnnouncement);
+
+    return {
+      text: newAnnouncement.text,
+      created_at: newAnnouncement.created_at,
+      updated_at: newAnnouncement.updated_at,
+      display_name: user.display_name,
+    };
+  }
+
+  // Проверка на то, кто создал Announcement
+  async remove(announcement_id: number) {
+    await this.announcementRepo.delete({ id: announcement_id });
   }
 }

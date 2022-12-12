@@ -1,5 +1,6 @@
 import { CourseEntity } from "src/course/entities/course.entity";
 import { GradeEntity } from "src/grade/entities/grade.entity";
+import { UserEntity } from "src/user/entities/user.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -42,4 +43,7 @@ export class AssignmentEntity {
 
   @Column({ nullable: true })
   maxGrade: number;
+
+  @ManyToOne(() => UserEntity)
+  user_: UserEntity;
 }

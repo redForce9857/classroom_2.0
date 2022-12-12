@@ -13,6 +13,8 @@ import {
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import { Roles } from "src/user/decorator/roles.decorator";
+import { UserDecorator } from "src/user/decorator/user.decorator";
+import { UserEntity } from "src/user/entities/user.entity";
 import { RolesGuard } from "src/user/guards/roles.guard";
 import { AuthGuard } from "src/user/guards/user.guard";
 import { UserRole } from "src/user_course/enum/role.enum";
@@ -37,9 +39,10 @@ export class AssignmentController {
   @Post("create")
   async createAss(
     @Body() createAssignmentDto: CreateAssignmentDto,
-    @Param("id") id: string
+    @Param("id") id: string,
+    @UserDecorator() user: UserEntity
   ) {
-    return await this.assignmentService.create(createAssignmentDto, id);
+    return await this.assignmentService.create(createAssignmentDto, id, user);
   }
 
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
