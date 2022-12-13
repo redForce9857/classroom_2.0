@@ -1,8 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TasksStreamService } from './tasks-stream.service';
-import { CreateTasksStreamDto } from './dto/create-tasks-stream.dto';
-import { UpdateTasksStreamDto } from './dto/update-tasks-stream.dto';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { TasksStreamService } from "./tasks-stream.service";
+import { CreateTasksStreamDto } from "./dto/create-tasks-stream.dto";
+import { UpdateTasksStreamDto } from "./dto/update-tasks-stream.dto";
+import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Task stream")
 @Controller("tasks-stream")

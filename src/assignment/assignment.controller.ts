@@ -1,5 +1,4 @@
 // TODO : ADd guards depending on course role
-// choose between params an smth
 import {
   Body,
   Controller,
@@ -8,7 +7,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   UseGuards,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";

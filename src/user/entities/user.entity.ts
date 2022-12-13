@@ -1,14 +1,15 @@
-import { UserCourseEntity } from 'src/user_course/entities/usercourse.entity';
+import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   BeforeInsert,
-} from 'typeorm';
-import { hash } from 'bcrypt';
+} from "typeorm";
+import { hash } from "bcrypt";
+import { CommentEntity } from "../../comment/entities/comment.entity";
 
-@Entity({ name: 'users' })
+@Entity({ name: "users" })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -31,4 +32,7 @@ export class UserEntity {
   async hashPassword() {
     if (this.password) this.password = await hash(this.password, 10);
   }
+
+  @OneToMany(() => CommentEntity, (comment) => comment.author_)
+  comments: CommentEntity[];
 }

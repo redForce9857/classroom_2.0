@@ -1,13 +1,12 @@
-import { CourseEntity } from 'src/course/entities/course.entity';
+import { CourseEntity } from "src/course/entities/course.entity";
 import {
   Column,
   PrimaryGeneratedColumn,
   Entity,
   OneToOne,
   JoinColumn,
-  OneToMany,
-} from 'typeorm';
-@Entity({ name: 'stream' })
+} from "typeorm";
+@Entity({ name: "stream" })
 export class StreamEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -16,7 +15,6 @@ export class StreamEntity {
   title: string;
 
   @OneToOne(() => CourseEntity)
-  @JoinColumn({ name: 'course_id' })
+  @JoinColumn({ name: "course_id" })
   course_: CourseEntity;
-
 }

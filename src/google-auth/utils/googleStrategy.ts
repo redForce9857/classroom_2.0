@@ -1,17 +1,17 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
-import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
-import { GoogleAuthService } from '../google-auth.service';
+import { Injectable, Inject } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
+import { Profile, Strategy, VerifyCallback } from "passport-google-oauth20";
+import { GoogleAuthService } from "../google-auth.service";
 @Injectable()
-export class GoogleAuthStrategy extends PassportStrategy(Strategy, 'google') {
+export class GoogleAuthStrategy extends PassportStrategy(Strategy, "google") {
   constructor(
     @Inject(GoogleAuthService) private readonly authService: GoogleAuthService
   ) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: 'http://localhost:3000/auth/google/redirect',
-      scope: ['profile', 'email'],
+      callbackURL: "http://localhost:3000/auth/google/redirect",
+      scope: ["profile", "email"],
     });
   }
 
@@ -21,13 +21,11 @@ export class GoogleAuthStrategy extends PassportStrategy(Strategy, 'google') {
     profile: Profile,
     done: VerifyCallback
   ) {
-    const user = await this.authService.validateUser(
-      {
-        email: profile.emails[0].value,
-        display_name: profile.displayName,
-        access_token:accessToken
-      },
-    );
+    const user = await this.authService.validateUser({
+      email: profile.emails[0].value,
+      display_name: profile.displayName,
+      access_token: accessToken,
+    });
     done(null, user);
   }
 }

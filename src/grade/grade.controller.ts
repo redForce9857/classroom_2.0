@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Req,
 } from "@nestjs/common";
 import { GradeService } from "./grade.service";
 import { CreateGradeDto } from "./dto/create-grade.dto";

@@ -7,18 +7,18 @@ import {
   ValidationPipe,
   UseGuards,
   Put,
-} from '@nestjs/common';
-import { UserService } from './user.service';
-import { ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from './dto/user.dto';
-import { UserResponseInterface } from './types/userResponse.interface';
-import { LoginUserDto } from './dto/login.dto';
-import { UserEntity } from './entities/user.entity';
-import { AuthGuard } from '../user/guards/user.guard';
-import { UpdateUserDto } from './dto/updateUser.dto';
-import { UserDecorator } from './decorator/user.decorator';
-@ApiTags('users')
-@Controller('user')
+} from "@nestjs/common";
+import { UserService } from "./user.service";
+import { ApiTags } from "@nestjs/swagger";
+import { CreateUserDto } from "./dto/user.dto";
+import { UserResponseInterface } from "./types/userResponse.interface";
+import { LoginUserDto } from "./dto/login.dto";
+import { UserEntity } from "./entities/user.entity";
+import { AuthGuard } from "./guards/user.guard";
+import { UpdateUserDto } from "./dto/updateUser.dto";
+import { UserDecorator } from "./decorator/user.decorator";
+@ApiTags("users")
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -28,16 +28,16 @@ export class UserController {
   }
 
   @UsePipes(new ValidationPipe())
-  @Post('register')
+  @Post("register")
   async createUser(
-    @Body('user') createUserDto: CreateUserDto
+    @Body("user") createUserDto: CreateUserDto
   ): Promise<UserResponseInterface> {
     const user = await this.userService.createUser(createUserDto);
     return this.userService.buildUserResponse(user);
   }
 
   @UsePipes(new ValidationPipe())
-  @Post('login')
+  @Post("login")
   async login(
     @Body() loginUserDto: LoginUserDto
   ): Promise<UserResponseInterface> {
@@ -45,7 +45,7 @@ export class UserController {
     return this.userService.buildUserResponse(user);
   }
 
-  @Get('getem')
+  @Get("getem")
   @UseGuards(AuthGuard)
   async currentUser(
     @UserDecorator() user: UserEntity
@@ -53,11 +53,11 @@ export class UserController {
     return this.userService.buildUserResponse(user);
   }
 
-  @Put('update')
+  @Put("update")
   @UseGuards(AuthGuard)
   async updateCurrentUser(
-    @UserDecorator('id') currentUserId: number,
-    @Body('user') updateUserDto: UpdateUserDto
+    @UserDecorator("id") currentUserId: number,
+    @Body("user") updateUserDto: UpdateUserDto
   ): Promise<UserResponseInterface> {
     const user = await this.userService.updateUser(
       currentUserId,

@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTasksStreamDto } from './dto/create-tasks-stream.dto';
-import { UpdateTasksStreamDto } from './dto/update-tasks-stream.dto';
+import { Injectable } from "@nestjs/common";
+import { CreateTasksStreamDto } from "./dto/create-tasks-stream.dto";
+import { UpdateTasksStreamDto } from "./dto/update-tasks-stream.dto";
 
 @Injectable()
 export class TasksStreamService {
   create(createTasksStreamDto: CreateTasksStreamDto) {
-    return 'This action adds a new tasksStream';
+    return `This action adds a new tasksStream ${createTasksStreamDto}`;
   }
 
   findAll() {
@@ -17,7 +17,7 @@ export class TasksStreamService {
   }
 
   update(id: number, updateTasksStreamDto: UpdateTasksStreamDto) {
-    return `This action updates a #${id} tasksStream`;
+    return `This action updates a #${updateTasksStreamDto} tasksStream`;
   }
 
   remove(id: number) {

@@ -1,8 +1,7 @@
-import { HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
-import { CreateGradeDto } from "./dto/create-grade.dto";
 import { UpdateGradeDto } from "./dto/update-grade.dto";
 import { GradeEntity } from "./entities/grade.entity";
 
@@ -19,13 +18,12 @@ export class GradeService {
     });
     console.log(grade_exists);
     if (grade_exists.length != 0) throw new Error("Оценка уже выставлена");
-    const grade = await this.gradesRepo
+    await this.gradesRepo
       .createQueryBuilder()
       .insert()
       .into(GradeEntity)
       .values([{ mark: 0, user_: user, assignment_: { id: ass_id } }])
       .execute();
-
     return HttpStatus.CREATED;
   }
 

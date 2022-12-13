@@ -1,10 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { profile } from 'console';
-import { Profile } from 'passport';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
-import { CreateGoogleAuthDto } from './dto/create-google-auth.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { UserEntity } from "src/user/entities/user.entity";
+import { Repository } from "typeorm";
+import { CreateGoogleAuthDto } from "./dto/create-google-auth.dto";
 
 @Injectable()
 export class GoogleAuthService {
@@ -19,13 +17,11 @@ export class GoogleAuthService {
       //update later
       return user;
     }
-    const newUser = this.create(dto);
-    return newUser;
+    return this.create(dto);
   }
 
-  async findUser(id: number) {
-    const user = await this.userRepo.findOneBy({});
-    return user;
+  async findUser() {
+    return await this.userRepo.findOneBy({});
   }
 
   create(dto: CreateGoogleAuthDto) {

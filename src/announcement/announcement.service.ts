@@ -17,12 +17,10 @@ export class AnnouncementService {
   ) {}
 
   async find(course_id: string) {
-    const announcements = await this.announcementRepo.find({
+    return await this.announcementRepo.find({
       select: { text: true, created_at: true, updated_at: true },
       where: { course_: { id: course_id } },
     });
-
-    return announcements;
   }
 
   async update(
@@ -37,7 +35,7 @@ export class AnnouncementService {
     course_id: string,
     user: UserEntity
   ) {
-    let newAnnouncement = new AnnouncementEntity();
+    const newAnnouncement = new AnnouncementEntity();
 
     const current_course = await this.courseRepo.findOneBy({ id: course_id });
     Object.assign(newAnnouncement, createAnnouncementDto, {

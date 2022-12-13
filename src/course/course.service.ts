@@ -9,7 +9,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { CourseEntity } from "./entities/course.entity";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
-import { Repository, UpdateResult } from "typeorm";
+import { Repository } from "typeorm";
 import { UserRole } from "src/user_course/enum/role.enum";
 
 @Injectable()
@@ -101,8 +101,7 @@ export class CourseService {
   }
 
   async find() {
-    const courses = await this.courseRepository.find();
-    return courses;
+    return await this.courseRepository.find();
   }
 
   findOne(id: number) {
@@ -124,9 +123,9 @@ export class CourseService {
   }
 
   // Delete course
-  // Access only for admin.
+  // Access only for admin.д
   async remove(course_code: string) {
-    this.courseRepository
+    await this.courseRepository
       .createQueryBuilder("courses")
       .delete()
       .from(CourseEntity)
@@ -135,14 +134,14 @@ export class CourseService {
   }
 
   async getUsers(id: string) {
-    const users = await this.userCourseRepository
+    return await this.userCourseRepository
       .find({
         relations: { user_: true },
         select: { user_: { display_name: true }, role: true },
         where: { course_: { id: id } },
       })
       .then((unparsed_users) => {
-        let parsed_users = [];
+        const parsed_users = [];
         for (const user of unparsed_users) {
           parsed_users.push({
             role: user.role,
@@ -151,6 +150,5 @@ export class CourseService {
         }
         return parsed_users;
       });
-    return users;
   }
 }

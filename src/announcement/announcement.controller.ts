@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Body,
   Controller,
@@ -8,12 +9,15 @@ import {
   Post,
   UseGuards,
 } from "@nestjs/common";
-import { UserDecorator } from "src/user/decorator/user.decorator";
-import { UserEntity } from "src/user/entities/user.entity";
-import { AuthGuard } from "src/user/guards/user.guard";
 import { AnnouncementService } from "./announcement.service";
 import { CreateAnnouncementDto } from "./dto/createAnnouncementDto.dto";
 import { UpdateAnnouncementDto } from "./dto/updateAnnouncementDto.dto";
+import { Roles } from "src/user/decorator/roles.decorator";
+import { RolesGuard } from "src/user/guards/roles.guard";
+import { UserRole } from "src/user_course/enum/role.enum";
+import { AuthGuard } from "@nestjs/passport";
+import { UserEntity } from "src/user/entities/user.entity";
+import { UserDecorator } from "src/user/decorator/user.decorator";
 
 @Controller("courses/:id/announcements")
 export class AnnouncementController {
@@ -25,7 +29,8 @@ export class AnnouncementController {
     return await this.announcementService.find(course_id);
   }
 
-  @UseGuards(AuthGuard)
+  @Roles(UserRole.TEACHER, UserRole.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @Patch(":ann_id")
   async updateAnnouncement(
     @Param("ann_id") announcement_id: number,
@@ -37,7 +42,9 @@ export class AnnouncementController {
     );
   }
 
-  @UseGuards(AuthGuard)
+  // Тут :id - это айди курса, в котором создается объявление
+  @Roles(UserRole.TEACHER, UserRole.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async create(
     @Body() createAnnouncementDto: CreateAnnouncementDto,
