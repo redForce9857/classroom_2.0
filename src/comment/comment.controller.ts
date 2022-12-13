@@ -13,18 +13,18 @@ import { CreateCommentDto } from "./dto/createComment.dto";
 import { UserDecorator } from "../user/decorator/user.decorator";
 import { UserEntity } from "../user/entities/user.entity";
 
-@Controller("comment")
+@Controller("announcement")
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
   @UseGuards(AuthGuard)
-  @Get()
+  @Get(":id/comment")
   async findAll(@Param("id") announcement_id: number) {
     return await this.commentService.findAll(announcement_id);
   }
 
   @UseGuards(AuthGuard)
-  @Post()
+  @Post(":id/comment")
   async create(
     @Body() createCommentDto: CreateCommentDto,
     @Param("id") announcement_id: number,
@@ -38,7 +38,7 @@ export class CommentController {
   }
 
   @UseGuards(AuthGuard)
-  @Delete()
+  @Delete(":id/comment")
   async delete(@Param("id") announcement_id: number) {
     return await this.commentService.delete(announcement_id);
   }
