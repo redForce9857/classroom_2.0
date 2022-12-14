@@ -20,8 +20,8 @@ export class GoogleAuthService {
     return this.create(dto);
   }
 
-  async findUser() {
-    return await this.userRepo.findOneBy({});
+  async findUser(id: number) {
+    return await this.userRepo.findOneBy({ id: id });
   }
 
   create(dto: CreateGoogleAuthDto) {

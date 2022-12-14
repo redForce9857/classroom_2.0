@@ -15,9 +15,9 @@ import { UpdateAnnouncementDto } from "./dto/updateAnnouncementDto.dto";
 import { Roles } from "src/user/decorator/roles.decorator";
 import { RolesGuard } from "src/user/guards/roles.guard";
 import { UserRole } from "src/user_course/enum/role.enum";
-import { AuthGuard } from "@nestjs/passport";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserDecorator } from "src/user/decorator/user.decorator";
+import { AuthGuard } from "../user/guards/user.guard";
 
 @Controller("courses/:id/announcements")
 export class AnnouncementController {

@@ -23,7 +23,7 @@ export class AssignmentEntity {
   @Column({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   time: string;
 
-  // if its right
+  // if it's right
   @ManyToOne(() => CourseEntity, (course) => course.assignments_)
   course_: CourseEntity;
 
