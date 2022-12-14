@@ -7,6 +7,7 @@ import { Repository } from "typeorm";
 import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
 import { AssignmentEntity } from "./entities/assignment.entity";
+import { AddUserAssignmentDto } from "../user/dto/addUserAssignment.dto";
 @Injectable()
 export class AssignmentService {
   constructor(
@@ -92,8 +93,10 @@ export class AssignmentService {
     return updatedCourse.raw[0];
   }
 
-  async addUser(users_id: [], assignment_id: number) {
+  async addUser(addUserAssignmentDto: AddUserAssignmentDto) {
     const result = [];
+    const users_id = addUserAssignmentDto.users_id;
+    const assignment_id = addUserAssignmentDto.assignment_id;
 
     for (const user_id in users_id) {
       const user = await this.userRepo.findOne({

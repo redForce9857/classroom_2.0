@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   UseGuards,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
@@ -19,6 +20,7 @@ import { UserRole } from "src/user_course/enum/role.enum";
 import { AssignmentService } from "./assignment.service";
 import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
+import { AddUserAssignmentDto } from "../user/dto/addUserAssignment.dto";
 
 @Controller("courses/:id/assignments")
 export class AssignmentController {
@@ -58,5 +60,12 @@ export class AssignmentController {
     @Body() updateAssignmentDto: UpdateAssignmentDto
   ) {
     return await this.assignmentService.update(ass_id, updateAssignmentDto);
+  }
+
+  @Roles(UserRole.TEACHER, UserRole.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Put("add")
+  async addUser(@Body() addUserAssignmentDto: AddUserAssignmentDto) {
+    return await this.assignmentService.addUser(addUserAssignmentDto);
   }
 }
