@@ -8,12 +8,16 @@ import { UserCourseModule } from "src/user_course/user_course.module";
 import { AssignmentController } from "./assignment.controller";
 import { AssignmentService } from "./assignment.service";
 import { AssignmentEntity } from "./entities/assignment.entity";
+import { UserEntity } from "../user/entities/user.entity";
+import { GradeEntity } from "../grade/entities/grade.entity";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       AssignmentEntity,
       UserCourseEntity,
+      UserEntity,
+      GradeEntity,
       CourseEntity,
     ]),
     UserModule,

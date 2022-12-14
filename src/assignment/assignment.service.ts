@@ -1,6 +1,7 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
+import { GradeEntity } from "src/grade/entities/grade.entity";
 import { UserEntity } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateAssignmentDto } from "./dto/createAssignment.dto";
@@ -12,7 +13,13 @@ export class AssignmentService {
     @InjectRepository(AssignmentEntity)
     private readonly assignmentRepo: Repository<AssignmentEntity>,
     @InjectRepository(CourseEntity)
-    private readonly courseRepo: Repository<CourseEntity>
+    private readonly courseRepo: Repository<CourseEntity>,
+
+    @InjectRepository(UserEntity)
+    private readonly userRepo: Repository<UserEntity>,
+
+    @InjectRepository(GradeEntity)
+    private readonly gradeRepo: Repository<GradeEntity>
   ) {}
 
   // TODO: Add comments count
@@ -83,5 +90,35 @@ export class AssignmentService {
       .updateEntity(true)
       .execute();
     return updatedCourse.raw[0];
+  }
+
+  async addUser(users_id: [], assignment_id: number) {
+    const result = [];
+
+    for (const user_id in users_id) {
+      const user = await this.userRepo.findOne({
+        where: { id: Number(user_id) },
+      });
+
+      const assignment = await this.assignmentRepo.findOne({
+        where: { id: assignment_id },
+      });
+
+      assignment.users_.push(user);
+      await this.assignmentRepo.save(assignment);
+
+      const assignmentAfterPush = await this.assignmentRepo.findOne({
+        where: { id: assignment_id },
+      });
+
+      const grade = new GradeEntity();
+      grade.assignment_ = assignment;
+      grade.user_ = user;
+
+      await this.gradeRepo.save(grade);
+
+      result.push(assignmentAfterPush);
+    }
+    return result;
   }
 }

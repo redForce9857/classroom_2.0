@@ -1,6 +1,13 @@
 import { CourseEntity } from "src/course/entities/course.entity";
 import { UserEntity } from "src/user/entities/user.entity";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
 
 @Entity({ name: "assignments" })
 export class AssignmentEntity {
@@ -38,4 +45,8 @@ export class AssignmentEntity {
 
   @ManyToOne(() => UserEntity)
   user_: UserEntity;
+
+  @ManyToMany(() => UserEntity)
+  @JoinTable()
+  users_: UserEntity[];
 }
