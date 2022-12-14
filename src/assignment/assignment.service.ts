@@ -95,16 +95,14 @@ export class AssignmentService {
 
   async addUser(addUserAssignmentDto: AddUserAssignmentDto) {
     const result = [];
-    const users_id = addUserAssignmentDto.users_id;
-    const assignment_id = addUserAssignmentDto.assignment_id;
+    const { users_id, assignment_id } = addUserAssignmentDto;
+    const assignment = await this.assignmentRepo.findOne({
+      where: { id: assignment_id },
+    });
 
     for (const user_id in users_id) {
       const user = await this.userRepo.findOne({
         where: { id: Number(user_id) },
-      });
-
-      const assignment = await this.assignmentRepo.findOne({
-        where: { id: assignment_id },
       });
 
       assignment.users_.push(user);
