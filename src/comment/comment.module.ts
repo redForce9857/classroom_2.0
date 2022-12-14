@@ -7,6 +7,7 @@ import { UserModule } from "../user/user.module";
 import { UserCourseModule } from "../user_course/user_course.module";
 import { CommentEntity } from "./entities/comment.entity";
 import { AnnouncementEntity } from "../announcement/entities/announcement.entity";
+import { AuthGuard } from "../user/guards/user.guard";
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { AnnouncementEntity } from "../announcement/entities/announcement.entity
     UserModule,
     UserCourseModule,
   ],
-  providers: [CommentService],
+  providers: [CommentService, AuthGuard],
   controllers: [CommentController],
 })
 export class CommentModule {}
