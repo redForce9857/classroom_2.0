@@ -13,7 +13,7 @@ import { CreateCommentDto } from "./dto/createComment.dto";
 import { UserDecorator } from "../user/decorator/user.decorator";
 import { UserEntity } from "../user/entities/user.entity";
 
-@Controller("comment")
+@Controller("announcement/:id/comment")
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 

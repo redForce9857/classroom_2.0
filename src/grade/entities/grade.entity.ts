@@ -12,7 +12,7 @@ import {
 @Check('"mark">=0 AND "mark"<=100')
 export class GradeEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @ManyToOne(() => UserEntity)
   user_: UserEntity;
@@ -20,6 +20,6 @@ export class GradeEntity {
   @ManyToOne(() => AssignmentEntity)
   assignment_: AssignmentEntity;
 
-  @Column()
+  @Column({ default: 0 })
   mark: number;
 }

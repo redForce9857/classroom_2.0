@@ -1,18 +1,26 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
+import { GradeEntity } from "src/grade/entities/grade.entity";
 import { UserEntity } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
 import { AssignmentEntity } from "./entities/assignment.entity";
+import { AddUserAssignmentDto } from "../user/dto/addUserAssignment.dto";
 @Injectable()
 export class AssignmentService {
   constructor(
     @InjectRepository(AssignmentEntity)
     private readonly assignmentRepo: Repository<AssignmentEntity>,
     @InjectRepository(CourseEntity)
-    private readonly courseRepo: Repository<CourseEntity>
+    private readonly courseRepo: Repository<CourseEntity>,
+
+    @InjectRepository(UserEntity)
+    private readonly userRepo: Repository<UserEntity>,
+
+    @InjectRepository(GradeEntity)
+    private readonly gradeRepo: Repository<GradeEntity>
   ) {}
 
   // TODO: Add comments count
@@ -83,5 +91,37 @@ export class AssignmentService {
       .updateEntity(true)
       .execute();
     return updatedCourse.raw[0];
+  }
+
+  async addUser(addUserAssignmentDto: AddUserAssignmentDto) {
+    const result = [];
+    const { users_id, assignment_id } = addUserAssignmentDto;
+    const assignment = await this.assignmentRepo.findOne({
+      where: { id: assignment_id },
+      relations: { users_: true },
+    });
+
+    for (let i = 0; i < users_id.length; i++) {
+      const user = await this.userRepo.findOne({
+        where: { id: users_id[i] },
+      });
+
+      assignment.users_.push(user);
+      await this.assignmentRepo.save(assignment);
+
+      const assignmentAfterPush = await this.assignmentRepo.findOne({
+        where: { id: assignment_id },
+      });
+
+      const grade = new GradeEntity();
+      grade.assignment_ = assignment;
+      grade.user_ = user;
+      grade.mark = 0;
+
+      await this.gradeRepo.save(grade);
+
+      result.push(assignmentAfterPush);
+    }
+    return result;
   }
 }
