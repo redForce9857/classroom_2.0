@@ -18,6 +18,8 @@ import { GradeModule } from "./grade/grade.module";
 import { AnnouncementModule } from "./announcement/announcement.module";
 import { AuthMiddleware } from "./user/middlewares/auth.middleware";
 import { CommentModule } from "./comment/comment.module";
+import { MulterModule } from "@nestjs/platform-express";
+import { memoryStorage } from "multer";
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import { CommentModule } from "./comment/comment.module";
     GradeModule,
     AnnouncementModule,
     CommentModule,
+    MulterModule.register({ storage: memoryStorage() }),
   ],
   controllers: [],
   providers: [],

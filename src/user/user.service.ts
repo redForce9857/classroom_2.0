@@ -8,7 +8,7 @@ import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginUserDto } from "./dto/login.dto";
 import { compare } from "bcrypt";
 import { UpdateUserDto } from "./dto/updateUser.dto";
-
+import * as fs from "fs";
 @Injectable()
 export class UserService {
   constructor(
@@ -101,5 +101,22 @@ export class UserService {
         token: this.generateJwt(user),
       },
     };
+  }
+
+  async uploadImage(image: string, user: UserEntity) {
+    const checkable_user = await this.userRepo.findOneBy({ id: user.id });
+
+    if (checkable_user.image)
+      fs.unlink(`images/${checkable_user.image}`, (err) => {
+        if (err) console.error(err);
+      });
+
+    await this.userRepo
+      .createQueryBuilder()
+      .update(UserEntity)
+      .set({ image: image })
+      .where("id = :id", { id: user.id })
+      .execute();
+    return `/image/${image}`;
   }
 }

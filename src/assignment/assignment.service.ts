@@ -2,7 +2,6 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
 import { UserEntity } from "src/user/entities/user.entity";
-import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import { Repository } from "typeorm";
 import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";

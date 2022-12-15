@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 
 @Entity({ name: "grades" })
-@Check('"mark">0 AND "mark"<=100')
+@Check('"mark">=0 AND "mark"<=100')
 export class GradeEntity {
   @PrimaryGeneratedColumn()
   id: string;

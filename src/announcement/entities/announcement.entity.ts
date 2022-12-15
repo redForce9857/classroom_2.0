@@ -8,7 +8,6 @@ import {
   OneToMany,
 } from "typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
-import { timestamp } from "rxjs";
 import { UserEntity } from "src/user/entities/user.entity";
 import { CommentEntity } from "../../comment/entities/comment.entity";
 @Entity({ name: "announcement" })

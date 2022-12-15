@@ -9,7 +9,11 @@ import { UserCourseEntity } from "../user_course/entities/usercourse.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AnnouncementEntity, CourseEntity,UserCourseEntity]),
+    TypeOrmModule.forFeature([
+      AnnouncementEntity,
+      CourseEntity,
+      UserCourseEntity,
+    ]),
     CourseModule,
   ],
   controllers: [AnnouncementController],
