@@ -61,7 +61,7 @@ export class CourseController {
     return await this.courseService.updateCourse(course_code, updateCourseDto);
   }
 
-  @ApiOperation({ summary: "Get all courses" })
+  @ApiOperation({ summary: "взять courses" })
   @Get("all")
   @ApiOperation({ summary: "взять все course" })
   async findAll(@UserDecorator("id") id: number) {
@@ -69,7 +69,7 @@ export class CourseController {
   }
 
   @Get(":id/users")
-  @ApiOperation({ summary: "взять course по айди" })
+  @ApiOperation({ summary: "взять course по id" })
   async getUsers(@Param("id") course_id: string) {
     return await this.courseService.getUsers(course_id);
   }

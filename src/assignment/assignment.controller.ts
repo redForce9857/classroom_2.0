@@ -7,7 +7,6 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   UseGuards,
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -68,7 +67,7 @@ export class AssignmentController {
 
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
-  @Put("add")
+  @Patch("add")
   @ApiOperation({ summary: "добавить нового ученика в assignments" })
   async addUser(@Body() addUserAssignmentDto: AddUserAssignmentDto) {
     return await this.assignmentService.addUser(addUserAssignmentDto);

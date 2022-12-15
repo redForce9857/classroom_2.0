@@ -30,7 +30,7 @@ export class TasksStreamController {
   }
 
   @Get(":id")
-  @ApiOperation({ summary: "взять tasksStream по айди" })
+  @ApiOperation({ summary: "взять tasksStream по id" })
   findOne(@Param("id") id: string) {
     return this.tasksStreamService.findOne(+id);
   }

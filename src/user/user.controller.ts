@@ -6,8 +6,8 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
-  Put,
   UseInterceptors,
+  Patch,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -62,7 +62,7 @@ export class UserController {
     return this.userService.buildUserResponse(user);
   }
 
-  @Put("update")
+  @Patch("update")
   @ApiOperation({ summary: "изменить user" })
   @UseGuards(AuthGuard)
   async updateCurrentUser(
