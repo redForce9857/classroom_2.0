@@ -7,6 +7,7 @@ import {
   ValidationPipe,
   UseGuards,
   Put,
+  UseInterceptors,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { ApiTags } from "@nestjs/swagger";
@@ -17,6 +18,10 @@ import { UserEntity } from "./entities/user.entity";
 import { AuthGuard } from "./guards/user.guard";
 import { UpdateUserDto } from "./dto/updateUser.dto";
 import { UserDecorator } from "./decorator/user.decorator";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { UploadedFile } from "@nestjs/common/decorators";
+import * as imageStorage from "./helpers/image-storage";
+import { SharpPipe } from "./pipes/sharp.pipe";
 @ApiTags("users")
 @Controller("user")
 export class UserController {
@@ -64,5 +69,15 @@ export class UserController {
       updateUserDto
     );
     return this.userService.buildUserResponse(user);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post("upload")
+  @UseInterceptors(FileInterceptor("image", imageStorage.saveImageToStorage))
+  async uploadFile(
+    @UploadedFile(SharpPipe) image: string,
+    @UserDecorator() user: UserEntity
+  ) {
+    return await this.userService.uploadImage(image, user);
   }
 }

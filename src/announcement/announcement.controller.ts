@@ -17,8 +17,7 @@ import { RolesGuard } from "src/user/guards/roles.guard";
 import { UserRole } from "src/user_course/enum/role.enum";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserDecorator } from "src/user/decorator/user.decorator";
-import { AuthGuard } from "../user/guards/user.guard";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { AuthGuard } from "src/user/guards/user.guard";
 
 @ApiTags("Announcements")
 @Controller("courses/:id/announcements")

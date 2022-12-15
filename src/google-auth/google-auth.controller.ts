@@ -3,13 +3,13 @@ import {
   Get,
   Header,
   Inject,
-  Redirect,
   Req,
   Res,
   UseGuards,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Request, Response } from "express";
+import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserService } from "src/user/user.service";
 import { GoogleAuthService } from "./google-auth.service";
@@ -33,10 +33,9 @@ export class GoogleAuthController {
 
   @Get("google/redirect")
   @UseGuards(GoogleAuthGuard)
-  @Redirect("/courses/get-courses")
-  @Header("authorization", "none")
+  // @Header("authorization", "none")
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async redirect(@Req() request: Request, @Res() response: Response) {
-    return this.userService.generateJwt(request.user as UserEntity);
+  async redirect(@UserDecorator() user: UserEntity) {
+    return this.userService.generateJwt(user as UserEntity);
   }
 }

@@ -35,4 +35,7 @@ export class UserEntity {
 
   @OneToMany(() => CommentEntity, (comment) => comment.author_)
   comments: CommentEntity[];
+
+  @Column({ nullable: true })
+  image: string;
 }
