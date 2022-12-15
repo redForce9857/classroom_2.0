@@ -12,7 +12,9 @@ import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/createComment.dto";
 import { UserDecorator } from "../user/decorator/user.decorator";
 import { UserEntity } from "../user/entities/user.entity";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Comments")
 @Controller("announcement/:id/comment")
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}

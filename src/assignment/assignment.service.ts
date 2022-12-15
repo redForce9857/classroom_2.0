@@ -8,6 +8,7 @@ import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
 import { AssignmentEntity } from "./entities/assignment.entity";
 import { AddUserAssignmentDto } from "../user/dto/addUserAssignment.dto";
+
 @Injectable()
 export class AssignmentService {
   constructor(
@@ -25,7 +26,7 @@ export class AssignmentService {
 
   // TODO: Add comments count
   async find(course_code: string) {
-    const assignments = await this.assignmentRepo.find({
+    return await this.assignmentRepo.find({
       select: {
         topic: true,
         description: true,
@@ -37,8 +38,6 @@ export class AssignmentService {
         course_: { id: course_code },
       },
     });
-    console.log(assignments);
-    return assignments;
   }
 
   async create(

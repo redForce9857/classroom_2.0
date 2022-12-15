@@ -13,6 +13,7 @@ import { UpdateGradeDto } from "./dto/update-grade.dto";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
+
 @ApiTags("Grades")
 @Controller("grade")
 export class GradeController {

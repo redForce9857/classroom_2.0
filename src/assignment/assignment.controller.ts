@@ -10,7 +10,7 @@ import {
   Put,
   UseGuards,
 } from "@nestjs/common";
-import { ApiOperation } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/user/decorator/roles.decorator";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
@@ -22,6 +22,7 @@ import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
 import { AddUserAssignmentDto } from "../user/dto/addUserAssignment.dto";
 
+@ApiTags("Assignments")
 @Controller("courses/:id/assignments")
 export class AssignmentController {
   constructor(private readonly assignmentService: AssignmentService) {}

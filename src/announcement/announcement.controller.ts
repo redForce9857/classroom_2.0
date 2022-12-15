@@ -18,13 +18,47 @@ import { UserRole } from "src/user_course/enum/role.enum";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { AuthGuard } from "../user/guards/user.guard";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Announcements")
 @Controller("courses/:id/announcements")
 export class AnnouncementController {
   constructor(private readonly announcementService: AnnouncementService) {}
 
   @UseGuards(AuthGuard)
   @Get()
+  @ApiOperation({summary: 'Get announcement'})
+  @ApiResponse({
+    status: 200,
+    description: 'All Data list', schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          text: {
+            type: 'string',
+            description: 'text with description of this announcement',
+            example: 'test description of this announcement'
+          },
+          created_at: {
+            type: 'timestamptz',
+            description: 'create date of this announcement',
+            example: '2022-12-15 04:31:02.463234 +00:00'
+          },
+          updated_at: {
+            type: 'timestamptz',
+            description: 'update date of this announcement',
+            example: '2022-12-15 04:31:02.463234 +00:00'
+          },
+        }
+      }
+    }
+
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
   async findAll(@Param("id") course_id: string) {
     return await this.announcementService.find(course_id);
   }
@@ -32,6 +66,7 @@ export class AnnouncementController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Patch(":ann_id")
+  @ApiOperation({summary: 'Update one announcement'})
   async updateAnnouncement(
     @Param("ann_id") announcement_id: number,
     @Body() updateAnnouncementDto: UpdateAnnouncementDto
@@ -46,6 +81,7 @@ export class AnnouncementController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
+  @ApiOperation({summary: 'Create one announcement'})
   async create(
     @Body() createAnnouncementDto: CreateAnnouncementDto,
     @Param("id") course_id: string,
@@ -60,6 +96,7 @@ export class AnnouncementController {
 
   @UseGuards(AuthGuard)
   @Delete(":ann_id")
+  @ApiOperation({summary: 'Delete one announcement'})
   async remove(@Param("ann_id") announcement_id: number) {
     return this.announcementService.remove(announcement_id);
   }
