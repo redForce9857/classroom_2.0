@@ -25,6 +25,7 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Post("create")
+  @ApiOperation({ summary: "создать course" })
   async create(
     @Body() createCourseDto: CreateCourseDto,
     @UserDecorator() user: UserEntity
@@ -33,6 +34,7 @@ export class CourseController {
   }
 
   @Post(":id/join")
+  @ApiOperation({ summary: "добавить ученика в course" })
   async joinUserToCourse(
     @Param("id") course_code: string,
     @UserDecorator() user: UserEntity
@@ -43,6 +45,7 @@ export class CourseController {
   @Roles(UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Delete(":id/delete")
+  @ApiOperation({ summary: "удалить course" })
   async deleteCourse(@Param("id") course_code: string) {
     await this.courseService.remove(course_code);
   }
@@ -50,6 +53,7 @@ export class CourseController {
   @Roles(UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Patch(":id/update")
+  @ApiOperation({ summary: "изменить course" })
   async updateCourse(
     @Param("id") course_code: string,
     @Body() updateCourseDto: UpdateCourseDto
@@ -59,11 +63,13 @@ export class CourseController {
 
   @ApiOperation({ summary: "Get all courses" })
   @Get("all")
+  @ApiOperation({ summary: "взять все course" })
   async findAll(@UserDecorator("id") id: number) {
     return await this.courseService.getCourses(id);
   }
 
   @Get(":id/users")
+  @ApiOperation({ summary: "взять course по айди" })
   async getUsers(@Param("id") course_id: string) {
     return await this.courseService.getUsers(course_id);
   }

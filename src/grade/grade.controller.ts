@@ -30,16 +30,19 @@ export class GradeController {
   }
 
   @Get()
+  @ApiOperation({ summary: "взять все grades" })
   async getAll() {
     return this.gradeService.findAll();
   }
 
   @Patch(":id")
+  @ApiOperation({ summary: "изменить grade" })
   update(@Param("id") id: string, @Body() updateGradeDto: UpdateGradeDto) {
     return this.gradeService.update(+id, updateGradeDto);
   }
 
   @Delete(":id")
+  @ApiOperation({ summary: "удалить grade" })
   remove(@Param("id") id: string) {
     return this.gradeService.remove(+id);
   }

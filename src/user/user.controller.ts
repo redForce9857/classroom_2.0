@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CreateUserDto } from "./dto/user.dto";
 import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginUserDto } from "./dto/login.dto";
@@ -28,12 +28,14 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @ApiOperation({ summary: "взять все users" })
   async findAll() {
     return this.userService.findAll();
   }
 
   @UsePipes(new ValidationPipe())
   @Post("register")
+  @ApiOperation({ summary: "регистрация" })
   async createUser(
     @Body("user") createUserDto: CreateUserDto
   ): Promise<UserResponseInterface> {
@@ -43,6 +45,7 @@ export class UserController {
 
   @UsePipes(new ValidationPipe())
   @Post("login")
+  @ApiOperation({ summary: "вход" })
   async login(
     @Body() loginUserDto: LoginUserDto
   ): Promise<UserResponseInterface> {
@@ -52,6 +55,7 @@ export class UserController {
 
   @Get("getem")
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: "взять текущего user" })
   async currentUser(
     @UserDecorator() user: UserEntity
   ): Promise<UserResponseInterface> {
@@ -59,6 +63,7 @@ export class UserController {
   }
 
   @Put("update")
+  @ApiOperation({ summary: "изменить user" })
   @UseGuards(AuthGuard)
   async updateCurrentUser(
     @UserDecorator("id") currentUserId: number,
@@ -73,6 +78,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Post("upload")
+  @ApiOperation({ summary: "добавить изображение к user" })
   @UseInterceptors(FileInterceptor("image", imageStorage.saveImageToStorage))
   async uploadFile(
     @UploadedFile(SharpPipe) image: string,
