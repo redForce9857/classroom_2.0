@@ -46,7 +46,7 @@ export class AssignmentEntity {
   @ManyToOne(() => UserEntity)
   user_: UserEntity;
 
-  @ManyToMany(() => UserEntity)
-  @JoinTable()
+  @ManyToMany(() => UserEntity, { nullable: true })
+  @JoinTable({ name: "users_" })
   users_: UserEntity[];
 }

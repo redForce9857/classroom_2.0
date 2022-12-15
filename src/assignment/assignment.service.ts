@@ -98,11 +98,12 @@ export class AssignmentService {
     const { users_id, assignment_id } = addUserAssignmentDto;
     const assignment = await this.assignmentRepo.findOne({
       where: { id: assignment_id },
+      relations: { users_: true },
     });
 
-    for (const user_id in users_id) {
+    for (let i = 0; i < users_id.length; i++) {
       const user = await this.userRepo.findOne({
-        where: { id: Number(user_id) },
+        where: { id: users_id[i] },
       });
 
       assignment.users_.push(user);
@@ -115,6 +116,7 @@ export class AssignmentService {
       const grade = new GradeEntity();
       grade.assignment_ = assignment;
       grade.user_ = user;
+      grade.mark = 0;
 
       await this.gradeRepo.save(grade);
 
