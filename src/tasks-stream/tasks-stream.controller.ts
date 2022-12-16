@@ -10,7 +10,7 @@ import {
 import { TasksStreamService } from "./tasks-stream.service";
 import { CreateTasksStreamDto } from "./dto/create-tasks-stream.dto";
 import { UpdateTasksStreamDto } from "./dto/update-tasks-stream.dto";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Task stream")
 @Controller("tasks-stream")
@@ -25,12 +25,53 @@ export class TasksStreamController {
 
   @Get()
   @ApiOperation({ summary: "взять все tasksStream" })
+  @ApiResponse({
+    status: 200,
+    description: "Пример массива",
+    schema: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer",
+            description: "уникальный id",
+            example: "42",
+          },
+          topic: {
+            type: "string",
+            description: "заголовок",
+            example: "задание",
+          },
+        },
+      },
+    },
+  })
   findAll() {
     return this.tasksStreamService.findAll();
   }
 
   @Get(":id")
   @ApiOperation({ summary: "взять tasksStream по id" })
+  @ApiResponse({
+    status: 200,
+    description: "Пример массива",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "уникальный id",
+          example: "42",
+        },
+        topic: {
+          type: "string",
+          description: "заголовок",
+          example: "задание",
+        },
+      },
+    },
+  })
   findOne(@Param("id") id: string) {
     return this.tasksStreamService.findOne(+id);
   }

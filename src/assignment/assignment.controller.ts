@@ -9,7 +9,7 @@ import {
   Post,
   UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/user/decorator/roles.decorator";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
@@ -30,6 +30,47 @@ export class AssignmentController {
   @UseGuards(AuthGuard)
   @Get()
   @ApiOperation({ summary: "взять assignments" })
+  @ApiResponse({
+    status: 200,
+    description: "Пример массива",
+    schema: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          topic: {
+            type: "string",
+            description: "топик задания",
+            example: "алгебра",
+          },
+          description: {
+            type: "string",
+            description: "описание задания",
+            example: "решите уравнения при помощи...",
+          },
+          theme: {
+            type: "string",
+            description: "тема задания",
+            example: "уравнения",
+          },
+          time: {
+            type: "timestamptz",
+            description: "дата создания",
+            example: "2022-12-15 04:31:02.463234 +00:00",
+          },
+          deadline: {
+            type: "timestamptz",
+            description: "дата дедлайна",
+            example: "2022-12-15 04:31:02.463234 +00:00",
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async findAll(@Param("id") course_id: string) {
     return await this.assignmentService.find(course_id);
   }
