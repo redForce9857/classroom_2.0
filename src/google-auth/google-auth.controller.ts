@@ -1,5 +1,5 @@
 import { Controller, Get, Inject, UseGuards } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserService } from "src/user/user.service";
@@ -17,12 +17,14 @@ export class GoogleAuthController {
   ) {}
 
   @Get("google/login")
+  @ApiOperation({ summary: "логин через google" })
   @UseGuards(GoogleAuthGuard)
   async Login() {
     return { msg: "google auth" };
   }
 
   @Get("google/redirect")
+  @ApiOperation({ summary: "редирект через google" })
   @UseGuards(GoogleAuthGuard)
   // @Header("authorization", "none")
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

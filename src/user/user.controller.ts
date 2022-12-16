@@ -6,11 +6,11 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
-  Put,
   UseInterceptors,
+  Patch,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateUserDto } from "./dto/user.dto";
 import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginUserDto } from "./dto/login.dto";
@@ -28,12 +28,58 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @ApiOperation({ summary: "взять всех users" })
+  @ApiResponse({
+    status: 200,
+    description: "Пример массива",
+    schema: {
+      items: {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer",
+            description: "уникальный id",
+            example: "42",
+          },
+          email: {
+            type: "string",
+            description: "емейл",
+            example: "Doe@gmail.com",
+          },
+          display_name: {
+            type: "string",
+            description: "отображаемое имя",
+            example: "John Doe",
+          },
+          password: {
+            type: "string",
+            description: "захешированный пароль",
+            example:
+              "$2b$10$XLIrX9bp30OijmbyME0M3u17esCFN1WlAoeQ1YeWhnuHTbmTsRk1W",
+          },
+          access_token: {
+            type: "string",
+            description: "токен",
+          },
+          image: {
+            type: "string",
+            description: "ссылка на аватар",
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async findAll() {
     return this.userService.findAll();
   }
 
   @UsePipes(new ValidationPipe())
   @Post("register")
+  @ApiOperation({ summary: "регистрация" })
   async createUser(
     @Body("user") createUserDto: CreateUserDto
   ): Promise<UserResponseInterface> {
@@ -43,6 +89,7 @@ export class UserController {
 
   @UsePipes(new ValidationPipe())
   @Post("login")
+  @ApiOperation({ summary: "вход" })
   async login(
     @Body() loginUserDto: LoginUserDto
   ): Promise<UserResponseInterface> {
@@ -52,13 +99,57 @@ export class UserController {
 
   @Get("getem")
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: "взять текущего user" })
+  @ApiResponse({
+    status: 200,
+    description: "Пример объекта",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "уникальный id",
+          example: "42",
+        },
+        email: {
+          type: "string",
+          description: "емейл",
+          example: "Doe@gmail.com",
+        },
+        display_name: {
+          type: "string",
+          description: "отображаемое имя",
+          example: "John Doe",
+        },
+        password: {
+          type: "string",
+          description: "захешированный пароль",
+          example:
+            "$2b$10$XLIrX9bp30OijmbyME0M3u17esCFN1WlAoeQ1YeWhnuHTbmTsRk1W",
+        },
+        access_token: {
+          type: "string",
+          description: "токен",
+        },
+        image: {
+          type: "string",
+          description: "ссылка на аватар",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async currentUser(
     @UserDecorator() user: UserEntity
   ): Promise<UserResponseInterface> {
     return this.userService.buildUserResponse(user);
   }
 
-  @Put("update")
+  @Patch("update")
+  @ApiOperation({ summary: "изменить user" })
   @UseGuards(AuthGuard)
   async updateCurrentUser(
     @UserDecorator("id") currentUserId: number,
@@ -73,6 +164,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Post("upload")
+  @ApiOperation({ summary: "добавить изображение к user" })
   @UseInterceptors(FileInterceptor("image", imageStorage.saveImageToStorage))
   async uploadFile(
     @UploadedFile(SharpPipe) image: string,

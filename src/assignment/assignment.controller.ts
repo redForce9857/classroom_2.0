@@ -7,10 +7,9 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   UseGuards,
 } from "@nestjs/common";
-import { ApiOperation } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/user/decorator/roles.decorator";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
@@ -22,6 +21,7 @@ import { CreateAssignmentDto } from "./dto/createAssignment.dto";
 import { UpdateAssignmentDto } from "./dto/updateAssignment.dto";
 import { AddUserAssignmentDto } from "../user/dto/addUserAssignment.dto";
 
+@ApiTags("Assignments")
 @Controller("courses/:id/assignments")
 export class AssignmentController {
   constructor(private readonly assignmentService: AssignmentService) {}
@@ -29,7 +29,48 @@ export class AssignmentController {
   // Get current course assignments
   @UseGuards(AuthGuard)
   @Get()
-  @ApiOperation({ summary: "Get all assignments" })
+  @ApiOperation({ summary: "взять assignments" })
+  @ApiResponse({
+    status: 200,
+    description: "Пример массива",
+    schema: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          topic: {
+            type: "string",
+            description: "топик задания",
+            example: "алгебра",
+          },
+          description: {
+            type: "string",
+            description: "описание задания",
+            example: "решите уравнения при помощи...",
+          },
+          theme: {
+            type: "string",
+            description: "тема задания",
+            example: "уравнения",
+          },
+          time: {
+            type: "timestamptz",
+            description: "дата создания",
+            example: "2022-12-15 04:31:02.463234 +00:00",
+          },
+          deadline: {
+            type: "timestamptz",
+            description: "дата дедлайна",
+            example: "2022-12-15 04:31:02.463234 +00:00",
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async findAll(@Param("id") course_id: string) {
     return await this.assignmentService.find(course_id);
   }
@@ -37,6 +78,7 @@ export class AssignmentController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Post("create")
+  @ApiOperation({ summary: "создать assignment" })
   async createAss(
     @Body() createAssignmentDto: CreateAssignmentDto,
     @Param("id") id: string,
@@ -48,6 +90,7 @@ export class AssignmentController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Delete("delete/:ass_id")
+  @ApiOperation({ summary: "удалить assignment" })
   async deleteAss(@Param("ass_id") ass_id: string) {
     return await this.assignmentService.delete(ass_id);
   }
@@ -55,6 +98,7 @@ export class AssignmentController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Patch("update/:ass_id")
+  @ApiOperation({ summary: "изменить assignment" })
   async updateAss(
     @Param("ass_id") ass_id: number,
     @Body() updateAssignmentDto: UpdateAssignmentDto
@@ -64,7 +108,8 @@ export class AssignmentController {
 
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
-  @Put("add")
+  @Patch("add")
+  @ApiOperation({ summary: "добавить нового ученика в assignments" })
   async addUser(@Body() addUserAssignmentDto: AddUserAssignmentDto) {
     return await this.assignmentService.addUser(addUserAssignmentDto);
   }

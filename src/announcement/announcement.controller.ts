@@ -18,13 +18,48 @@ import { UserRole } from "src/user_course/enum/role.enum";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { AuthGuard } from "src/user/guards/user.guard";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Announcements")
 @Controller("courses/:id/announcements")
 export class AnnouncementController {
   constructor(private readonly announcementService: AnnouncementService) {}
 
   @UseGuards(AuthGuard)
   @Get()
+  @ApiOperation({summary: 'Получить announcement'})
+  @ApiResponse({
+    status: 200,
+    description: 'Пример массива',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          text: {
+            type: 'string',
+            description: 'текст с описанием',
+            example: 'test description of this announcement'
+          },
+          created_at: {
+            type: 'timestamptz',
+            description: 'дата создания',
+            example: '2022-12-15 04:31:02.463234 +00:00'
+          },
+          updated_at: {
+            type: 'timestamptz',
+            description: 'дата последнего обновления',
+            example: '2022-12-15 04:31:02.463234 +00:00'
+          },
+        }
+      }
+    }
+
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
   async findAll(@Param("id") course_id: string) {
     return await this.announcementService.find(course_id);
   }
@@ -32,6 +67,11 @@ export class AnnouncementController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Patch(":ann_id")
+  @ApiOperation({summary: 'изменить announcement'})
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
   async updateAnnouncement(
     @Param("ann_id") announcement_id: number,
     @Body() updateAnnouncementDto: UpdateAnnouncementDto
@@ -42,10 +82,14 @@ export class AnnouncementController {
     );
   }
 
-  // Тут :id - это айди курса, в котором создается объявление
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
+  @ApiOperation({summary: 'Создать announcement'})
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
   async create(
     @Body() createAnnouncementDto: CreateAnnouncementDto,
     @Param("id") course_id: string,
@@ -60,6 +104,7 @@ export class AnnouncementController {
 
   @UseGuards(AuthGuard)
   @Delete(":ann_id")
+  @ApiOperation({summary: 'Удалить announcement'})
   async remove(@Param("ann_id") announcement_id: number) {
     return this.announcementService.remove(announcement_id);
   }
