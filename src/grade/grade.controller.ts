@@ -10,7 +10,7 @@ import {
 import { GradeService } from "./grade.service";
 import { CreateGradeDto } from "./dto/create-grade.dto";
 import { UpdateGradeDto } from "./dto/update-grade.dto";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
 
@@ -21,6 +21,21 @@ export class GradeController {
 
   @Post(":assignment_id")
   @ApiOperation({ summary: "Поставить оценку" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        mark: {
+          type: "integer",
+          example: "100",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully created",
+  })
   async create(
     @Body() createGradeDto: CreateGradeDto,
     @UserDecorator() user: UserEntity,
@@ -59,6 +74,21 @@ export class GradeController {
 
   @Patch(":id")
   @ApiOperation({ summary: "изменить grade" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        mark: {
+          type: "integer",
+          example: "100",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully edited",
+  })
   update(@Param("id") id: string, @Body() updateGradeDto: UpdateGradeDto) {
     return this.gradeService.update(+id, updateGradeDto);
   }

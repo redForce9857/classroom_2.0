@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
@@ -16,7 +16,6 @@ export class GradeService {
     const grade_exists = await this.gradesRepo.find({
       where: { user_: { id: user.id }, assignment_: { id: ass_id } },
     });
-    console.log(grade_exists);
     if (grade_exists.length != 0) throw new Error("Оценка уже выставлена");
     await this.gradesRepo
       .createQueryBuilder()
@@ -24,7 +23,7 @@ export class GradeService {
       .into(GradeEntity)
       .values([{ mark: 0, user_: user, assignment_: { id: ass_id } }])
       .execute();
-    return HttpStatus.CREATED;
+    return "successfully created";
   }
 
   async findAll() {

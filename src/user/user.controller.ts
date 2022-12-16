@@ -10,7 +10,7 @@ import {
   Patch,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateUserDto } from "./dto/user.dto";
 import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginUserDto } from "./dto/login.dto";
@@ -77,9 +77,66 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @UsePipes(new ValidationPipe())
+  // @UsePipes(new ValidationPipe())
   @Post("register")
   @ApiOperation({ summary: "регистрация" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        display_name: {
+          type: "string",
+          description: "имя",
+          example: "John",
+        },
+        email: {
+          type: "string",
+          description: "емейл",
+          example: "John@gmail.com",
+        },
+        password: {
+          type: "string",
+          description: "пароль",
+          example: "123456789",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully created",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "id",
+          example: "42",
+        },
+        display_name: {
+          type: "string",
+          description: "имя",
+          example: "John",
+        },
+        email: {
+          type: "string",
+          description: "емейл",
+          example: "John@gmail.com",
+        },
+        password: {
+          type: "string",
+          description: "пароль",
+          example: "123456789",
+        },
+        token: {
+          type: "string",
+          description: "token",
+          example:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZGlzcGxheV9uYW1lIjoiTWVsbmlrIiwiZW1haWwiOiJtZWxuaWtAZ21haWwuY29tIiwiaWF0IjoxNjcxMTc1NzQ1fQ.Djj2kgoTg92XINATm3O_wotPTll99dSNoqhhQqZL3tM",
+        },
+      },
+    },
+  })
   async createUser(
     @Body("user") createUserDto: CreateUserDto
   ): Promise<UserResponseInterface> {
@@ -90,6 +147,58 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post("login")
   @ApiOperation({ summary: "вход" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        email: {
+          type: "string",
+          description: "емейл",
+          example: "John@gmail.com",
+        },
+        password: {
+          type: "string",
+          description: "пароль",
+          example: "123456789",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "id",
+          example: "42",
+        },
+        display_name: {
+          type: "string",
+          description: "имя",
+          example: "John",
+        },
+        email: {
+          type: "string",
+          description: "емейл",
+          example: "John@gmail.com",
+        },
+        password: {
+          type: "string",
+          description: "пароль",
+          example: "123456789",
+        },
+        token: {
+          type: "string",
+          description: "token",
+          example:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZGlzcGxheV9uYW1lIjoiTWVsbmlrIiwiZW1haWwiOiJtZWxuaWtAZ21haWwuY29tIiwiaWF0IjoxNjcxMTc1NzQ1fQ.Djj2kgoTg92XINATm3O_wotPTll99dSNoqhhQqZL3tM",
+        },
+      },
+    },
+  })
   async login(
     @Body() loginUserDto: LoginUserDto
   ): Promise<UserResponseInterface> {
@@ -150,6 +259,63 @@ export class UserController {
 
   @Patch("update")
   @ApiOperation({ summary: "изменить user" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        email: {
+          type: "string",
+          description: "емейл",
+          example: "John@gmail.com",
+        },
+        password: {
+          type: "string",
+          description: "пароль",
+          example: "123456789",
+        },
+        display_name: {
+          type: "string",
+          description: "имя",
+          example: "John",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "id",
+          example: "42",
+        },
+        display_name: {
+          type: "string",
+          description: "имя",
+          example: "John",
+        },
+        email: {
+          type: "string",
+          description: "емейл",
+          example: "John@gmail.com",
+        },
+        password: {
+          type: "string",
+          description: "пароль",
+          example: "123456789",
+        },
+        token: {
+          type: "string",
+          description: "token",
+          example:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZGlzcGxheV9uYW1lIjoiTWVsbmlrIiwiZW1haWwiOiJtZWxuaWtAZ21haWwuY29tIiwiaWF0IjoxNjcxMTc1NzQ1fQ.Djj2kgoTg92XINATm3O_wotPTll99dSNoqhhQqZL3tM",
+        },
+      },
+    },
+  })
   @UseGuards(AuthGuard)
   async updateCurrentUser(
     @UserDecorator("id") currentUserId: number,

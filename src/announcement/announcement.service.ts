@@ -27,7 +27,8 @@ export class AnnouncementService {
     announcement_id: number,
     updateAnnouncementDto: UpdateAnnouncementDto
   ) {
-    return this.announcementRepo.update(announcement_id, updateAnnouncementDto);
+    await this.announcementRepo.update(announcement_id, updateAnnouncementDto);
+    return "update successfully";
   }
 
   async create(

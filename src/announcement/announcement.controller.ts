@@ -18,7 +18,7 @@ import { UserRole } from "src/user_course/enum/role.enum";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { AuthGuard } from "src/user/guards/user.guard";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Announcements")
 @Controller("courses/:id/announcements")
@@ -68,6 +68,30 @@ export class AnnouncementController {
   @UseGuards(AuthGuard, RolesGuard)
   @Patch(":ann_id")
   @ApiOperation({summary: 'изменить announcement'})
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        text: {
+          type: 'string',
+          example: 'test text string',
+          description: 'announcement text',
+        },
+        user_: {
+          type: 'object',
+          description: 'user entity',
+        },
+        course_: {
+          type: 'object',
+          description: 'user entity',
+        },
+      }
+    }
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'update successfully'
+  })
   @ApiResponse({
     status: 401,
     description: 'Unauthorized',
@@ -85,7 +109,42 @@ export class AnnouncementController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
+  // text: newAnnouncement.text,
+  // created_at: newAnnouncement.created_at,
+  // updated_at: newAnnouncement.updated_at,
+  // display_name: user.display_name,
   @ApiOperation({summary: 'Создать announcement'})
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        text: {
+          type: 'string',
+          example: 'test text string',
+          description: 'announcement text',
+        },
+        display_name: {
+          type: 'string',
+          example: 'john doe',
+          description: 'name',
+        },
+        created_at: {
+          type: 'timestamptz',
+          description: 'дата создания',
+          example: '2022-12-15 04:31:02.463234 +00:00'
+        },
+        updated_at: {
+          type: 'timestamptz',
+          description: 'дата последнего обновления',
+          example: '2022-12-15 04:31:02.463234 +00:00'
+        },
+      }
+    }
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'update successfully'
+  })
   @ApiResponse({
     status: 401,
     description: 'Unauthorized',

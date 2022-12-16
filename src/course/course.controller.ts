@@ -8,7 +8,13 @@ import {
   UseGuards,
   Patch,
 } from "@nestjs/common";
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { CourseService } from "./course.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
 import { UserEntity } from "src/user/entities/user.entity";
@@ -26,6 +32,47 @@ export class CourseController {
 
   @Post("create")
   @ApiOperation({ summary: "создать course" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        title: {
+          type: "string",
+          description: "Название курса",
+          example: "курс 1",
+        },
+        room: {
+          type: "string",
+          description: "Аудитория",
+          example: "315",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "id",
+          example: "42",
+        },
+        title: {
+          type: "string",
+          description: "Название курса",
+          example: "курс 1",
+        },
+        room: {
+          type: "string",
+          description: "Аудитория",
+          example: "315",
+        },
+      },
+    },
+  })
   async create(
     @Body() createCourseDto: CreateCourseDto,
     @UserDecorator() user: UserEntity
@@ -35,6 +82,30 @@ export class CourseController {
 
   @Post(":id/join")
   @ApiOperation({ summary: "добавить ученика в course" })
+  @ApiResponse({
+    status: 201,
+    description: "successfully",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "id",
+          example: "42",
+        },
+        title: {
+          type: "string",
+          description: "Название курса",
+          example: "курс 1",
+        },
+        room: {
+          type: "string",
+          description: "Аудитория",
+          example: "315",
+        },
+      },
+    },
+  })
   async joinUserToCourse(
     @Param("id") course_code: string,
     @UserDecorator() user: UserEntity
@@ -62,6 +133,47 @@ export class CourseController {
   @UseGuards(AuthGuard, RolesGuard)
   @Patch(":id/update")
   @ApiOperation({ summary: "изменить course" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        title: {
+          type: "string",
+          description: "Название курса",
+          example: "курс 1",
+        },
+        room: {
+          type: "string",
+          description: "Аудитория",
+          example: "315",
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully",
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer",
+          description: "id",
+          example: "42",
+        },
+        title: {
+          type: "string",
+          description: "Название курса",
+          example: "курс 1",
+        },
+        room: {
+          type: "string",
+          description: "Аудитория",
+          example: "315",
+        },
+      },
+    },
+  })
   async updateCourse(
     @Param("id") course_code: string,
     @Body() updateCourseDto: UpdateCourseDto

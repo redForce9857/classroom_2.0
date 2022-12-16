@@ -10,7 +10,13 @@ import {
 import { TasksStreamService } from "./tasks-stream.service";
 import { CreateTasksStreamDto } from "./dto/create-tasks-stream.dto";
 import { UpdateTasksStreamDto } from "./dto/update-tasks-stream.dto";
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 
 @ApiTags("Task stream")
 @Controller("tasks-stream")
@@ -19,6 +25,20 @@ export class TasksStreamController {
 
   @Post()
   @ApiOperation({ summary: "создать tasksStream" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {},
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully",
+    schema: {
+      type: "object",
+      properties: {},
+    },
+  })
   create(@Body() createTasksStreamDto: CreateTasksStreamDto) {
     return this.tasksStreamService.create(createTasksStreamDto);
   }
@@ -84,6 +104,20 @@ export class TasksStreamController {
 
   @Patch(":id")
   @ApiOperation({ summary: "изменить tasksStream" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {},
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: "successfully",
+    schema: {
+      type: "object",
+      properties: {},
+    },
+  })
   update(
     @Param("id") id: string,
     @Body() updateTasksStreamDto: UpdateTasksStreamDto
