@@ -56,5 +56,7 @@ export class AnnouncementService {
   // Проверка на то, кто создал Announcement
   async remove(announcement_id: number) {
     await this.announcementRepo.delete({ id: announcement_id });
+
+    return "successfully deleted";
   }
 }

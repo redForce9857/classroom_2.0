@@ -65,6 +65,14 @@ export class GradeController {
 
   @Delete(":id")
   @ApiOperation({ summary: "удалить grade" })
+  @ApiResponse({
+    status: 200,
+    description: "successfully deleted",
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   remove(@Param("id") id: string) {
     return this.gradeService.remove(+id);
   }

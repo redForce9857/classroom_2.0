@@ -105,6 +105,14 @@ export class AnnouncementController {
   @UseGuards(AuthGuard)
   @Delete(":ann_id")
   @ApiOperation({summary: 'Удалить announcement'})
+  @ApiResponse({
+    status: 200,
+    description: "successfully deleted",
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async remove(@Param("ann_id") announcement_id: number) {
     return this.announcementService.remove(announcement_id);
   }

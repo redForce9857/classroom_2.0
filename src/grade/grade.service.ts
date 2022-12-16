@@ -36,6 +36,8 @@ export class GradeService {
   }
 
   remove(id: number) {
-    return this.gradesRepo.delete(id);
+    this.gradesRepo.delete(id);
+
+    return "successfully deleted";
   }
 }

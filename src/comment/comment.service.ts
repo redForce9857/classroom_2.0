@@ -48,5 +48,6 @@ export class CommentService {
         announcement: { id: announcement_id },
       });
     }
+    return "Delete Successfully";
   }
 }

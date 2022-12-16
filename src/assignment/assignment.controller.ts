@@ -91,6 +91,14 @@ export class AssignmentController {
   @UseGuards(AuthGuard, RolesGuard)
   @Delete("delete/:ass_id")
   @ApiOperation({ summary: "удалить assignment" })
+  @ApiResponse({
+    status: 200,
+    description: "successfully deleted",
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async deleteAss(@Param("ass_id") ass_id: string) {
     return await this.assignmentService.delete(ass_id);
   }

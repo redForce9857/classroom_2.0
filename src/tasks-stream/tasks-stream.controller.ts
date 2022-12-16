@@ -10,7 +10,7 @@ import {
 import { TasksStreamService } from "./tasks-stream.service";
 import { CreateTasksStreamDto } from "./dto/create-tasks-stream.dto";
 import { UpdateTasksStreamDto } from "./dto/update-tasks-stream.dto";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Task stream")
 @Controller("tasks-stream")
@@ -53,6 +53,12 @@ export class TasksStreamController {
 
   @Get(":id")
   @ApiOperation({ summary: "взять tasksStream по id" })
+  @ApiParam({
+    name: "id",
+    type: "integer",
+    description: "enter unique id",
+    required: true,
+  })
   @ApiResponse({
     status: 200,
     description: "Пример массива",
@@ -87,6 +93,14 @@ export class TasksStreamController {
 
   @Delete(":id")
   @ApiOperation({ summary: "удалить tasksStream" })
+  @ApiResponse({
+    status: 200,
+    description: "This action removes a tasksStream",
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   remove(@Param("id") id: string) {
     return this.tasksStreamService.remove(+id);
   }

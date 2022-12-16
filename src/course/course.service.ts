@@ -131,6 +131,8 @@ export class CourseService {
       .from(CourseEntity)
       .where("id = :id", { id: course_code })
       .execute();
+
+    return "successfully deleted";
   }
 
   async getUsers(id: string) {

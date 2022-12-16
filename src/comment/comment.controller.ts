@@ -12,7 +12,7 @@ import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/createComment.dto";
 import { UserDecorator } from "../user/decorator/user.decorator";
 import { UserEntity } from "../user/entities/user.entity";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Comments")
 @Controller("announcement/:id/comment")
@@ -58,7 +58,7 @@ export class CommentController {
   }
 
   @UseGuards(AuthGuard)
-  @Post()
+  @Post(":id")
   @ApiOperation({ summary: "создать comment" })
   async create(
     @Body() createCommentDto: CreateCommentDto,
@@ -73,8 +73,22 @@ export class CommentController {
   }
 
   @UseGuards(AuthGuard)
-  @Delete()
+  @Delete(":id")
   @ApiOperation({ summary: "удалить comment" })
+  @ApiParam({
+    name: "id",
+    type: "integer",
+    description: "enter unique id",
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "deleted successfully",
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async delete(@Param("id") announcement_id: number) {
     return await this.commentService.delete(announcement_id);
   }

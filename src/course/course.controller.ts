@@ -8,7 +8,7 @@ import {
   UseGuards,
   Patch,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CourseService } from "./course.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
 import { UserEntity } from "src/user/entities/user.entity";
@@ -46,6 +46,14 @@ export class CourseController {
   @UseGuards(AuthGuard, RolesGuard)
   @Delete(":id/delete")
   @ApiOperation({ summary: "удалить course" })
+  @ApiResponse({
+    status: 200,
+    description: "successfully deleted",
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
   async deleteCourse(@Param("id") course_code: string) {
     await this.courseService.remove(course_code);
   }
@@ -105,6 +113,12 @@ export class CourseController {
 
   @Get(":id/users")
   @ApiOperation({ summary: "взять юзеров курса по id" })
+  @ApiParam({
+    name: "id",
+    type: "integer",
+    description: "enter unique id",
+    required: true,
+  })
   @ApiResponse({
     status: 200,
     description: "Пример массива",

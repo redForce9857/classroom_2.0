@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
 import { GradeEntity } from "src/grade/entities/grade.entity";
@@ -77,7 +77,7 @@ export class AssignmentService {
       .where("id = :id", { id: ass_id })
       .execute();
 
-    return HttpStatus.OK;
+    return "successfully deleted";
   }
 
   async update(ass_id: number, updateAssignmentDto: UpdateAssignmentDto) {
