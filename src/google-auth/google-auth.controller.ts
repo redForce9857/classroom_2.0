@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Header,
-  Inject,
-  Req,
-  Res,
-  UseGuards,
-} from "@nestjs/common";
+import { Controller, Get, Inject, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { Request, Response } from "express";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserService } from "src/user/user.service";
