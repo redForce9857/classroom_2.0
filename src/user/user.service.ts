@@ -48,7 +48,7 @@ export class UserService {
       },
       where: { email: loginUserDto.email },
     });
-    if (!user) {
+    if (!user.length) {
       throw new HttpException(
         "Credentials are not valid",
         HttpStatus.UNPROCESSABLE_ENTITY

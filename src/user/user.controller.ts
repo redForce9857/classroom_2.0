@@ -144,7 +144,7 @@ export class UserController {
     },
   })
   async createUser(
-    @Body("") createUserDto: CreateUserDto
+    @Body() createUserDto: CreateUserDto
   ): Promise<UserResponseInterface> {
     const user = await this.userService.createUser(createUserDto);
     return this.userService.buildUserResponse(user);

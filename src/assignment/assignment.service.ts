@@ -46,7 +46,6 @@ export class AssignmentService {
     user: UserEntity
   ): Promise<AssignmentEntity> {
     const current_course = await this.courseRepo.findOneBy({ id: id });
-    console.log(current_course);
     let newAssignment = new AssignmentEntity();
     Object.assign(newAssignment, createAssignmentDto, {
       course_: current_course,

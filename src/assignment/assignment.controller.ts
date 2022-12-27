@@ -32,9 +32,9 @@ import { AddUserAssignmentDto } from "../user/dto/addUserAssignment.dto";
 export class AssignmentController {
   constructor(private readonly assignmentService: AssignmentService) {}
 
-  // Get current course assignments
   @UseGuards(AuthGuard)
   @Get()
+  @ApiBearerAuth()
   @ApiOperation({ summary: "взять assignments" })
   @ApiResponse({
     status: 200,

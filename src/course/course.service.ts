@@ -55,7 +55,6 @@ export class CourseService {
         where: { user_: { id: currentUserId } },
       })
       .then((data) => {
-        console.log(data);
         for (let i = 0; i < data.length; i++) {
           const course: object = {
             course_code: data[i].course_.id,

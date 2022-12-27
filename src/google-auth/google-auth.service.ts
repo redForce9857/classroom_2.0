@@ -26,7 +26,6 @@ export class GoogleAuthService {
 
   create(dto: CreateGoogleAuthDto) {
     const newUser = this.userRepo.create(dto);
-    console.log(newUser);
     return this.userRepo.save(newUser);
   }
 }
