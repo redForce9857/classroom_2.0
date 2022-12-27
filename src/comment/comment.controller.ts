@@ -13,6 +13,7 @@ import { CreateCommentDto } from "./dto/createComment.dto";
 import { UserDecorator } from "../user/decorator/user.decorator";
 import { UserEntity } from "../user/entities/user.entity";
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
@@ -59,6 +60,7 @@ export class CommentController {
     status: 401,
     description: "Unauthorized",
   })
+  @ApiBearerAuth("XYZ")
   async findAll(@Param("id") announcement_id: number) {
     return await this.commentService.findAll(announcement_id);
   }
@@ -118,6 +120,7 @@ export class CommentController {
       },
     },
   })
+  @ApiBearerAuth("XYZ")
   async create(
     @Body() createCommentDto: CreateCommentDto,
     @Param("id") announcement_id: number,
@@ -147,6 +150,7 @@ export class CommentController {
     status: 401,
     description: "Unauthorized",
   })
+  @ApiBearerAuth("XYZ")
   async delete(@Param("id") announcement_id: number) {
     return await this.commentService.delete(announcement_id);
   }

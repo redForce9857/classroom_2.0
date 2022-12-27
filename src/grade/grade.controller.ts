@@ -10,7 +10,13 @@ import {
 import { GradeService } from "./grade.service";
 import { CreateGradeDto } from "./dto/create-grade.dto";
 import { UpdateGradeDto } from "./dto/update-grade.dto";
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
 
@@ -36,6 +42,7 @@ export class GradeController {
     status: 201,
     description: "successfully created",
   })
+  @ApiBearerAuth("XYZ")
   async create(
     @Body() createGradeDto: CreateGradeDto,
     @UserDecorator() user: UserEntity,
@@ -68,6 +75,7 @@ export class GradeController {
       },
     },
   })
+  @ApiBearerAuth("XYZ")
   async getAll() {
     return this.gradeService.findAll();
   }
@@ -89,6 +97,7 @@ export class GradeController {
     status: 201,
     description: "successfully edited",
   })
+  @ApiBearerAuth("XYZ")
   update(@Param("id") id: string, @Body() updateGradeDto: UpdateGradeDto) {
     return this.gradeService.update(+id, updateGradeDto);
   }
@@ -103,7 +112,13 @@ export class GradeController {
     status: 401,
     description: "Unauthorized",
   })
+  @ApiBearerAuth("XYZ")
   remove(@Param("id") id: string) {
     return this.gradeService.remove(+id);
+  }
+
+  @Get("nigga")
+  sometest() {
+    return "Bekjan loh";
   }
 }

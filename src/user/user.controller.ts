@@ -10,7 +10,13 @@ import {
   Patch,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { CreateUserDto } from "./dto/user.dto";
 import { UserResponseInterface } from "./types/userResponse.interface";
 import { LoginUserDto } from "./dto/login.dto";
@@ -138,7 +144,7 @@ export class UserController {
     },
   })
   async createUser(
-    @Body("user") createUserDto: CreateUserDto
+    @Body("") createUserDto: CreateUserDto
   ): Promise<UserResponseInterface> {
     const user = await this.userService.createUser(createUserDto);
     return this.userService.buildUserResponse(user);
@@ -251,6 +257,7 @@ export class UserController {
     status: 401,
     description: "Unauthorized",
   })
+  @ApiBearerAuth("XYZ")
   async currentUser(
     @UserDecorator() user: UserEntity
   ): Promise<UserResponseInterface> {
@@ -317,6 +324,7 @@ export class UserController {
     },
   })
   @UseGuards(AuthGuard)
+  @ApiBearerAuth("XYZ")
   async updateCurrentUser(
     @UserDecorator("id") currentUserId: number,
     @Body("user") updateUserDto: UpdateUserDto
@@ -332,6 +340,7 @@ export class UserController {
   @Post("upload")
   @ApiOperation({ summary: "добавить изображение к user" })
   @UseInterceptors(FileInterceptor("image", imageStorage.saveImageToStorage))
+  @ApiBearerAuth("XYZ")
   async uploadFile(
     @UploadedFile(SharpPipe) image: string,
     @UserDecorator() user: UserEntity

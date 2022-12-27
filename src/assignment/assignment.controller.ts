@@ -9,7 +9,13 @@ import {
   Post,
   UseGuards,
 } from "@nestjs/common";
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { Roles } from "src/user/decorator/roles.decorator";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
@@ -71,6 +77,7 @@ export class AssignmentController {
     status: 401,
     description: "Unauthorized",
   })
+  @ApiBearerAuth("XYZ")
   async findAll(@Param("id") course_id: string) {
     return await this.assignmentService.find(course_id);
   }
@@ -178,6 +185,7 @@ export class AssignmentController {
       },
     },
   })
+  @ApiBearerAuth("XYZ")
   async createAss(
     @Body() createAssignmentDto: CreateAssignmentDto,
     @Param("id") id: string,
@@ -198,6 +206,7 @@ export class AssignmentController {
     status: 401,
     description: "Unauthorized",
   })
+  @ApiBearerAuth("XYZ")
   async deleteAss(@Param("ass_id") ass_id: string) {
     return await this.assignmentService.delete(ass_id);
   }
@@ -305,6 +314,7 @@ export class AssignmentController {
       },
     },
   })
+  @ApiBearerAuth("XYZ")
   async updateAss(
     @Param("ass_id") ass_id: number,
     @Body() updateAssignmentDto: UpdateAssignmentDto
@@ -395,6 +405,7 @@ export class AssignmentController {
       },
     },
   })
+  @ApiBearerAuth("XYZ")
   async addUser(@Body() addUserAssignmentDto: AddUserAssignmentDto) {
     return await this.assignmentService.addUser(addUserAssignmentDto);
   }

@@ -18,7 +18,7 @@ import { UserRole } from "src/user_course/enum/role.enum";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { AuthGuard } from "src/user/guards/user.guard";
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Announcements")
 @Controller("courses/:id/announcements")
@@ -60,6 +60,7 @@ export class AnnouncementController {
     status: 401,
     description: 'Unauthorized',
   })
+  @ApiBearerAuth("XYZ")
   async findAll(@Param("id") course_id: string) {
     return await this.announcementService.find(course_id);
   }
@@ -96,6 +97,7 @@ export class AnnouncementController {
     status: 401,
     description: 'Unauthorized',
   })
+  @ApiBearerAuth("XYZ")
   async updateAnnouncement(
     @Param("ann_id") announcement_id: number,
     @Body() updateAnnouncementDto: UpdateAnnouncementDto
@@ -149,6 +151,7 @@ export class AnnouncementController {
     status: 401,
     description: 'Unauthorized',
   })
+  @ApiBearerAuth("XYZ")
   async create(
     @Body() createAnnouncementDto: CreateAnnouncementDto,
     @Param("id") course_id: string,
@@ -172,6 +175,7 @@ export class AnnouncementController {
     status: 401,
     description: "Unauthorized",
   })
+  @ApiBearerAuth("XYZ")
   async remove(@Param("ann_id") announcement_id: number) {
     return this.announcementService.remove(announcement_id);
   }
