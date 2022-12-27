@@ -60,7 +60,7 @@ export class CommentController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async findAll(@Param("id") announcement_id: number) {
     return await this.commentService.findAll(announcement_id);
   }
@@ -120,7 +120,7 @@ export class CommentController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async create(
     @Body() createCommentDto: CreateCommentDto,
     @Param("id") announcement_id: number,
@@ -150,7 +150,7 @@ export class CommentController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async delete(@Param("id") announcement_id: number) {
     return await this.commentService.delete(announcement_id);
   }

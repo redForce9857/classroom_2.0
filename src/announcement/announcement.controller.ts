@@ -60,8 +60,7 @@ export class AnnouncementController {
     status: 401,
     description: 'Unauthorized',
   })
-  @ApiBearerAuth("XYZ")
-  async findAll(@Param("id") course_id: string) {
+  @ApiBearerAuth()  async findAll(@Param("id") course_id: string) {
     return await this.announcementService.find(course_id);
   }
 
@@ -97,8 +96,7 @@ export class AnnouncementController {
     status: 401,
     description: 'Unauthorized',
   })
-  @ApiBearerAuth("XYZ")
-  async updateAnnouncement(
+  @ApiBearerAuth()  async updateAnnouncement(
     @Param("ann_id") announcement_id: number,
     @Body() updateAnnouncementDto: UpdateAnnouncementDto
   ) {
@@ -151,8 +149,7 @@ export class AnnouncementController {
     status: 401,
     description: 'Unauthorized',
   })
-  @ApiBearerAuth("XYZ")
-  async create(
+  @ApiBearerAuth()  async create(
     @Body() createAnnouncementDto: CreateAnnouncementDto,
     @Param("id") course_id: string,
     @UserDecorator() user: UserEntity
@@ -175,8 +172,7 @@ export class AnnouncementController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
-  async remove(@Param("ann_id") announcement_id: number) {
+  @ApiBearerAuth()  async remove(@Param("ann_id") announcement_id: number) {
     return this.announcementService.remove(announcement_id);
   }
 }

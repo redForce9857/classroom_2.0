@@ -257,7 +257,7 @@ export class UserController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async currentUser(
     @UserDecorator() user: UserEntity
   ): Promise<UserResponseInterface> {
@@ -324,7 +324,7 @@ export class UserController {
     },
   })
   @UseGuards(AuthGuard)
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async updateCurrentUser(
     @UserDecorator("id") currentUserId: number,
     @Body("user") updateUserDto: UpdateUserDto
@@ -340,7 +340,7 @@ export class UserController {
   @Post("upload")
   @ApiOperation({ summary: "добавить изображение к user" })
   @UseInterceptors(FileInterceptor("image", imageStorage.saveImageToStorage))
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async uploadFile(
     @UploadedFile(SharpPipe) image: string,
     @UserDecorator() user: UserEntity

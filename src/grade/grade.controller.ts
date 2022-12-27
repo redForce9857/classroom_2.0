@@ -42,7 +42,7 @@ export class GradeController {
     status: 201,
     description: "successfully created",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async create(
     @Body() createGradeDto: CreateGradeDto,
     @UserDecorator() user: UserEntity,
@@ -75,7 +75,7 @@ export class GradeController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async getAll() {
     return this.gradeService.findAll();
   }
@@ -97,7 +97,7 @@ export class GradeController {
     status: 201,
     description: "successfully edited",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   update(@Param("id") id: string, @Body() updateGradeDto: UpdateGradeDto) {
     return this.gradeService.update(+id, updateGradeDto);
   }
@@ -112,7 +112,7 @@ export class GradeController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   remove(@Param("id") id: string) {
     return this.gradeService.remove(+id);
   }

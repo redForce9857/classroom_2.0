@@ -77,7 +77,7 @@ export class AssignmentController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async findAll(@Param("id") course_id: string) {
     return await this.assignmentService.find(course_id);
   }
@@ -185,7 +185,7 @@ export class AssignmentController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async createAss(
     @Body() createAssignmentDto: CreateAssignmentDto,
     @Param("id") id: string,
@@ -206,7 +206,7 @@ export class AssignmentController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async deleteAss(@Param("ass_id") ass_id: string) {
     return await this.assignmentService.delete(ass_id);
   }
@@ -314,7 +314,7 @@ export class AssignmentController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async updateAss(
     @Param("ass_id") ass_id: number,
     @Body() updateAssignmentDto: UpdateAssignmentDto
@@ -405,7 +405,7 @@ export class AssignmentController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async addUser(@Body() addUserAssignmentDto: AddUserAssignmentDto) {
     return await this.assignmentService.addUser(addUserAssignmentDto);
   }

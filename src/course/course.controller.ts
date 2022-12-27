@@ -74,7 +74,7 @@ export class CourseController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async create(
     @Body() createCourseDto: CreateCourseDto,
     @UserDecorator() user: UserEntity
@@ -108,7 +108,7 @@ export class CourseController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async joinUserToCourse(
     @Param("id") course_code: string,
     @UserDecorator() user: UserEntity
@@ -128,7 +128,7 @@ export class CourseController {
     status: 401,
     description: "Unauthorized",
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async deleteCourse(@Param("id") course_code: string) {
     await this.courseService.remove(course_code);
   }
@@ -178,7 +178,7 @@ export class CourseController {
       },
     },
   })
-  @ApiBearerAuth("XYZ")
+  @ApiBearerAuth()
   async updateCourse(
     @Param("id") course_code: string,
     @Body() updateCourseDto: UpdateCourseDto
