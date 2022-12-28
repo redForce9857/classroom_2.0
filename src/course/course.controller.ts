@@ -20,10 +20,7 @@ import { CourseService } from "./course.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
 import { UserEntity } from "src/user/entities/user.entity";
 import { UpdateCourseDto } from "./dto/update-course.dto";
-import { Roles } from "src/user/decorator/roles.decorator";
-import { UserRole } from "src/user_course/enum/role.enum";
 import { AuthGuard } from "../user/guards/user.guard";
-import { RolesGuard } from "src/user/guards/roles.guard";
 import { UserDecorator } from "../user/decorator/user.decorator";
 
 @ApiTags("Courses")
@@ -74,6 +71,7 @@ export class CourseController {
       },
     },
   })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   async create(
     @Body() createCourseDto: CreateCourseDto,
@@ -108,6 +106,7 @@ export class CourseController {
       },
     },
   })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   async joinUserToCourse(
     @Param("id") course_code: string,
@@ -116,8 +115,7 @@ export class CourseController {
     return await this.courseService.joinUserToCourse(course_code, user);
   }
 
-  @Roles(UserRole.ADMIN)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @Delete(":id/delete")
   @ApiOperation({ summary: "удалить course" })
   @ApiResponse({
@@ -133,8 +131,7 @@ export class CourseController {
     await this.courseService.remove(course_code);
   }
 
-  @Roles(UserRole.ADMIN)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @Patch(":id/update")
   @ApiOperation({ summary: "изменить course" })
   @ApiBody({
@@ -188,6 +185,8 @@ export class CourseController {
 
   @Get("all")
   @ApiOperation({ summary: "взять все course" })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: "Пример массива",
@@ -229,7 +228,9 @@ export class CourseController {
   }
 
   @Get(":id/users")
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: "взять юзеров курса по id" })
+  @ApiBearerAuth()
   @ApiParam({
     name: "id",
     type: "integer",

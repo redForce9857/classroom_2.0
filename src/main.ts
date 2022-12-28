@@ -30,15 +30,12 @@ async function bootstrap() {
   };
 
   const config = new DocumentBuilder()
-    .addBearerAuth(
-      {
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-        in: "header",
-      },
-      "XYZ"
-    )
+    .addBearerAuth({
+      type: "http",
+      scheme: "bearer",
+      bearerFormat: "JWT",
+      in: "header",
+    })
     .setTitle("Google Classroom")
     .setDescription("Google Classroom Documentation")
     .build();

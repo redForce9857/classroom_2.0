@@ -26,9 +26,20 @@ export class CourseService {
     createCourseDto: CreateCourseDto,
     user: UserEntity
   ): Promise<CourseEntity> {
+    if (!createCourseDto.room || !createCourseDto.title)
+      throw new ConflictException("one of the parameters was not passed");
+
+    const course = await this.courseRepository.findOne({
+      where: { title: createCourseDto.title },
+    });
+
+    if (course) throw new ConflictException("Course already exist");
+
     let newCourse = new CourseEntity();
     Object.assign(newCourse, createCourseDto);
     newCourse = await this.courseRepository.save(newCourse);
+
+    console.log(user, newCourse);
 
     await this.userCourseRepository
       .createQueryBuilder()
@@ -40,8 +51,6 @@ export class CourseService {
     return newCourse;
   }
 
-  // Get all courses related to current user.
-  // TODO: Also get role of this user related to course
   async getCourses(currentUserId: number) {
     const coursesArr: object[] = [];
     await this.userCourseRepository
@@ -88,7 +97,9 @@ export class CourseService {
       .then((data) => {
         checkinUser = data;
       });
-    if (checkinUser) throw new ConflictException("U already in this course");
+
+    if (checkinUser) throw new ConflictException("User already in this course");
+
     await this.userCourseRepository
       .createQueryBuilder()
       .insert()
@@ -103,13 +114,14 @@ export class CourseService {
     return await this.courseRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
+  async findOne(id: string) {
+    return await this.courseRepository.findOne({ where: { id: id } });
   }
 
-  // Updates course
-  // Access only for Admin
   async updateCourse(course_code: string, updateCourseDto: UpdateCourseDto) {
+    if (!updateCourseDto.room || !updateCourseDto.title)
+      throw new ConflictException("one of the parameters was not passed");
+
     const updatedCourse = await this.courseRepository
       .createQueryBuilder()
       .update<CourseEntity>(CourseEntity)
@@ -121,9 +133,9 @@ export class CourseService {
     return updatedCourse.raw[0];
   }
 
-  // Delete course
-  // Access only for admin.д
   async remove(course_code: string) {
+    if (!course_code) throw new ConflictException("parameter was not passed");
+
     await this.courseRepository
       .createQueryBuilder("courses")
       .delete()
@@ -135,6 +147,8 @@ export class CourseService {
   }
 
   async getUsers(id: string) {
+    if (!id) throw new ConflictException("parameter was not passed");
+
     return await this.userCourseRepository
       .find({
         relations: { user_: true },

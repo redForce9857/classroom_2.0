@@ -12,7 +12,7 @@ export class CourseEntity {
   @Column({ unique: true })
   title: string;
 
-  @Column({ nullable: true })
+  @Column()
   room: string;
 
   @OneToMany(() => TasksStreamEntity, (taskStream) => taskStream.course_)
