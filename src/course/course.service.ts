@@ -39,8 +39,6 @@ export class CourseService {
     Object.assign(newCourse, createCourseDto);
     newCourse = await this.courseRepository.save(newCourse);
 
-    console.log(user, newCourse);
-
     await this.userCourseRepository
       .createQueryBuilder()
       .insert()
