@@ -110,7 +110,7 @@ export class UserController {
   })
   @ApiResponse({
     status: 201,
-    description: "successfully created",
+    description: "успешно создан",
     schema: {
       type: "object",
       properties: {
@@ -172,7 +172,7 @@ export class UserController {
   })
   @ApiResponse({
     status: 201,
-    description: "successfully",
+    description: "вход успешен",
     schema: {
       type: "object",
       properties: {
@@ -290,7 +290,7 @@ export class UserController {
   })
   @ApiResponse({
     status: 201,
-    description: "successfully",
+    description: "успешно изменено",
     schema: {
       type: "object",
       properties: {

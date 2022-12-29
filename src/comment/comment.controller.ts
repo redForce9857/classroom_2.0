@@ -90,7 +90,7 @@ export class CommentController {
   })
   @ApiResponse({
     status: 201,
-    description: "update successfully",
+    description: "обновлён успешно",
     schema: {
       type: "object",
       properties: {

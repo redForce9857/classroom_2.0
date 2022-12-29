@@ -153,7 +153,7 @@ export class CourseController {
   })
   @ApiResponse({
     status: 201,
-    description: "successfully",
+    description: "Успешно",
     schema: {
       type: "object",
       properties: {

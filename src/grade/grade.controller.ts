@@ -95,7 +95,7 @@ export class GradeController {
   })
   @ApiResponse({
     status: 201,
-    description: "successfully edited",
+    description: "успешно изменено",
   })
   @ApiBearerAuth()
   update(@Param("id") id: string, @Body() updateGradeDto: UpdateGradeDto) {
@@ -106,7 +106,7 @@ export class GradeController {
   @ApiOperation({ summary: "удалить grade" })
   @ApiResponse({
     status: 200,
-    description: "successfully deleted",
+    description: "успешно удалено",
   })
   @ApiResponse({
     status: 401,
