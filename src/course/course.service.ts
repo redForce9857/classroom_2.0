@@ -120,26 +120,34 @@ export class CourseService {
     if (!updateCourseDto.room || !updateCourseDto.title)
       throw new ConflictException("one of the parameters was not passed");
 
-    const updatedCourse = await this.courseRepository
-      .createQueryBuilder()
-      .update<CourseEntity>(CourseEntity)
-      .set(updateCourseDto)
-      .where("id = :id", { id: course_code })
-      .returning(["title", "room"])
-      .updateEntity(true)
-      .execute();
-    return updatedCourse.raw[0];
+    // const updatedCourse = await this.courseRepository
+    //   .createQueryBuilder()
+    //   .update<CourseEntity>(CourseEntity)
+    //   .set(updateCourseDto)
+    //   .where("id = :id", { id: course_code })
+    //   .returning(["title", "room"])
+    //   .updateEntity(true)
+    //   .execute();
+
+    return await this.courseRepository.update(
+      { id: course_code },
+      updateCourseDto
+    );
   }
 
   async remove(course_code: string) {
     if (!course_code) throw new ConflictException("parameter was not passed");
 
-    await this.courseRepository
-      .createQueryBuilder("courses")
-      .delete()
-      .from(CourseEntity)
-      .where("id = :id", { id: course_code })
-      .execute();
+    await this.courseRepository.delete({
+      id: course_code,
+    });
+
+    // await this.courseRepository
+    //   .createQueryBuilder("courses")
+    //   .delete()
+    //   .from(CourseEntity)
+    //   .where("id = :id", { id: course_code })
+    //   .execute();
 
     return "successfully deleted";
   }

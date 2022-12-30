@@ -68,27 +68,34 @@ export class AssignmentService {
     return newAssignment;
   }
 
-  async delete(ass_id: string) {
-    await this.assignmentRepo
-      .createQueryBuilder("courses")
-      .delete()
-      .from(AssignmentEntity)
-      .where("id = :id", { id: ass_id })
-      .execute();
+  async delete(ass_id: number) {
+    await this.assignmentRepo.delete({
+      id: ass_id,
+    });
+
+    // await this.assignmentRepo
+    //   .createQueryBuilder("courses")
+    //   .delete()
+    //   .from(AssignmentEntity)
+    //   .where("id = :id", { id: ass_id })
+    //   .execute();
 
     return "successfully deleted";
   }
 
   async update(ass_id: number, updateAssignmentDto: UpdateAssignmentDto) {
-    const updatedCourse = await this.assignmentRepo
-      .createQueryBuilder()
-      .update<AssignmentEntity>(AssignmentEntity)
-      .set(updateAssignmentDto)
-      .where("id = :id", { id: ass_id })
-      .returning(["topic", "description", "theme", "id", "time"])
-      .updateEntity(true)
-      .execute();
-    return updatedCourse.raw[0];
+    // const updatedCourse = await this.assignmentRepo
+    //   .createQueryBuilder()
+    //   .update<AssignmentEntity>(AssignmentEntity)
+    //   .set(updateAssignmentDto)
+    //   .where("id = :id", { id: ass_id })
+    //   .returning(["topic", "description", "theme", "id", "time"])
+    //   .updateEntity(true)
+    //   .execute();
+    return await this.assignmentRepo.update(
+      { id: ass_id },
+      updateAssignmentDto
+    );
   }
 
   async addUser(addUserAssignmentDto: AddUserAssignmentDto) {

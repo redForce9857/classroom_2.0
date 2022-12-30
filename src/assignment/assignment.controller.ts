@@ -207,7 +207,7 @@ export class AssignmentController {
     description: "Unauthorized",
   })
   @ApiBearerAuth()
-  async deleteAss(@Param("ass_id") ass_id: string) {
+  async deleteAss(@Param("ass_id") ass_id: number) {
     return await this.assignmentService.delete(ass_id);
   }
 
