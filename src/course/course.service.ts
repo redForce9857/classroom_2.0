@@ -39,12 +39,14 @@ export class CourseService {
     Object.assign(newCourse, createCourseDto);
     newCourse = await this.courseRepository.save(newCourse);
 
-    await this.userCourseRepository
-      .createQueryBuilder()
-      .insert()
-      .into(UserCourseEntity)
-      .values([{ user_: user, course_: newCourse }])
-      .execute();
+    await this.userCourseRepository.save([{ user_: user, course_: newCourse }]);
+
+    // await this.userCourseRepository
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into(UserCourseEntity)
+    //   .values([{ user_: user, course_: newCourse }])
+    //   .execute();
 
     return newCourse;
   }
@@ -98,12 +100,16 @@ export class CourseService {
 
     if (checkinUser) throw new ConflictException("User already in this course");
 
-    await this.userCourseRepository
-      .createQueryBuilder()
-      .insert()
-      .into(UserCourseEntity)
-      .values([{ role: UserRole.STUDENT, course_: course, user_: user }])
-      .execute();
+    await this.userCourseRepository.save([
+      { role: UserRole.STUDENT, course_: course, user_: user },
+    ]);
+
+    // await this.userCourseRepository
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into(UserCourseEntity)
+    //   .values([{ role: UserRole.STUDENT, course_: course, user_: user }])
+    //   .execute();
 
     return course;
   }
