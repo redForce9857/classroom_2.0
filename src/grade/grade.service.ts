@@ -32,15 +32,15 @@ export class GradeService {
   }
 
   async findAll() {
-    return this.gradesRepo.find();
+    return await this.gradesRepo.find();
   }
 
-  update(id: number, updateGradeDto: UpdateGradeDto) {
-    return this.gradesRepo.update(id, updateGradeDto);
+  async update(id: number, updateGradeDto: UpdateGradeDto) {
+    return await this.gradesRepo.update(id, updateGradeDto);
   }
 
-  remove(id: number) {
-    this.gradesRepo.delete(id);
+  async remove(id: number) {
+    await this.gradesRepo.delete(id);
 
     return "successfully deleted";
   }

@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { ROLES_KEY } from "../decorator/roles.decorator";
 import { UserRole } from "src/user_course/enum/role.enum";
@@ -14,6 +14,28 @@ export class RolesGuard implements CanActivate {
     private readonly userCourseRepo: Repository<UserCourseEntity>
   ) {}
 
+  // async canActivate(context: ExecutionContext): Promise<boolean> {
+  //   const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
+  //     ROLES_KEY,
+  //     [context.getHandler(), context.getClass()]
+  //   );
+  //   const { user } = context.switchToHttp().getRequest();
+  //   const { params } = context.switchToHttp().getRequest();
+  //   let role: string;
+  //   await this.userCourseRepo
+  //     .createQueryBuilder()
+  //     .select("uc.role")
+  //     .from(UserCourseEntity, "uc")
+  //     .where("uc.user_id = :u_id AND uc.course_id = :c_code ", {
+  //       u_id: user.id,
+  //       c_code: params.id,
+  //     })
+  //     .getOne()
+  //     .then((data) => (role = data.role));
+  //   if (!requiredRoles) return true;
+  //
+  //   return requiredRoles.some((r) => r == role);
+  // }
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
       ROLES_KEY,
@@ -23,17 +45,15 @@ export class RolesGuard implements CanActivate {
     const { params } = context.switchToHttp().getRequest();
     let role: string;
     await this.userCourseRepo
-      .createQueryBuilder()
-      .select("uc.role")
-      .from(UserCourseEntity, "uc")
-      .where("uc.user_id = :u_id AND uc.course_id = :c_code ", {
-        u_id: user.id,
-        c_code: params.id,
+      .findOne({
+        where: {
+          id: user.id,
+          course_: { id: params.id },
+        },
       })
-      .getOne()
       .then((data) => (role = data.role));
     if (!requiredRoles) return true;
 
-    return requiredRoles.some((r) => r == role);
+    return requiredRoles.find((r) => r == role) != undefined;
   }
 }
