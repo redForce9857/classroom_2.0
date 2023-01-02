@@ -1,14 +1,15 @@
-FROM node:18-alpine
+FROM node
 
-WORKDIR /classroom
+WORKDIR /app
 
 COPY package*.json ./
 
 RUN npm install 
 
-COPY . .
+COPY . ./
 
-RUN npm run build 
+RUN npm run build
 
-EXPOSE 8080
-CMD ["node", "dist/src/main.js"]
+EXPOSE 3000 
+
+CMD ["node", "dist/main.js"]
