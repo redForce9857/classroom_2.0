@@ -110,12 +110,15 @@ export class UserService {
         if (err) console.error(err);
       });
 
-    await this.userRepo
-      .createQueryBuilder()
-      .update(UserEntity)
-      .set({ image: image })
-      .where("id = :id", { id: user.id })
-      .execute();
+    await this.userRepo.update({ id: user.id }, { image: image });
+
+    // await this.userRepo
+    //   .createQueryBuilder()
+    //   .update(UserEntity)
+    //   .set({ image: image })
+    //   .where("id = :id", { id: user.id })
+    //   .execute();
+
     return `/image/${image}`;
   }
 }

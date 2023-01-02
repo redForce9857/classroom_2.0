@@ -17,25 +17,30 @@ export class GradeService {
       where: { user_: { id: user.id }, assignment_: { id: ass_id } },
     });
     if (grade_exists.length != 0) throw new Error("Оценка уже выставлена");
-    await this.gradesRepo
-      .createQueryBuilder()
-      .insert()
-      .into(GradeEntity)
-      .values([{ mark: 0, user_: user, assignment_: { id: ass_id } }])
-      .execute();
+    await this.gradesRepo.save([
+      { mark: 0, user_: user, assignment_: { id: ass_id } },
+    ]);
+
+    // await this.gradesRepo
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into(GradeEntity)
+    //   .values([{ mark: 0, user_: user, assignment_: { id: ass_id } }])
+    //   .execute();
+
     return "successfully created";
   }
 
   async findAll() {
-    return this.gradesRepo.find();
+    return await this.gradesRepo.find();
   }
 
-  update(id: number, updateGradeDto: UpdateGradeDto) {
-    return this.gradesRepo.update(id, updateGradeDto);
+  async update(id: number, updateGradeDto: UpdateGradeDto) {
+    return await this.gradesRepo.update(id, updateGradeDto);
   }
 
-  remove(id: number) {
-    this.gradesRepo.delete(id);
+  async remove(id: number) {
+    await this.gradesRepo.delete(id);
 
     return "successfully deleted";
   }
