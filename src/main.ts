@@ -7,7 +7,6 @@ import {
   SwaggerDocumentOptions,
   SwaggerModule,
 } from "@nestjs/swagger";
-
 import { ConfigService } from "@nestjs/config";
 import { Logger } from "@nestjs/common";
 
@@ -24,6 +23,7 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  app.enableCors();
 
   const options: SwaggerDocumentOptions = {
     deepScanRoutes: true,
