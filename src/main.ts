@@ -10,7 +10,6 @@ import {
 
 import { ConfigService } from "@nestjs/config";
 import { Logger } from "@nestjs/common";
-import cors from "cors";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,10 +20,6 @@ async function bootstrap() {
       cookie: {
         maxAge: 60000,
       },
-    }),
-    cors({
-      credentials: true,
-      origin: true,
     })
   );
   app.use(passport.initialize());
@@ -35,6 +30,12 @@ async function bootstrap() {
   };
 
   const config = new DocumentBuilder()
+    .addBearerAuth({
+      type: "http",
+      scheme: "bearer",
+      bearerFormat: "JWT",
+      in: "header",
+    })
     .setTitle("Google Classroom")
     .setDescription("Google Classroom Documentation")
     .build();
