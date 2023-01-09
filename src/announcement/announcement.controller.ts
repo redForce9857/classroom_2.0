@@ -1,14 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { AnnouncementService } from "./announcement.service";
 import { CreateAnnouncementDto } from "./dto/createAnnouncementDto.dto";
 import { UpdateAnnouncementDto } from "./dto/updateAnnouncementDto.dto";
@@ -109,10 +100,6 @@ export class AnnouncementController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
-  // text: newAnnouncement.text,
-  // created_at: newAnnouncement.created_at,
-  // updated_at: newAnnouncement.updated_at,
-  // display_name: user.display_name,
   @ApiOperation({summary: 'Создать announcement'})
   @ApiBody({
     schema: {

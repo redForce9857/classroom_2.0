@@ -1,12 +1,12 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
   Patch,
+  Post,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiBearerAuth,
@@ -233,7 +233,7 @@ export class CourseController {
   @ApiBearerAuth()
   @ApiParam({
     name: "id",
-    type: "integer",
+    type: "string",
     description: "enter unique id",
     required: true,
   })

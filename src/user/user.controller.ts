@@ -1,13 +1,13 @@
 import {
+  Body,
   Controller,
   Get,
+  Patch,
   Post,
-  Body,
-  UsePipes,
-  ValidationPipe,
   UseGuards,
   UseInterceptors,
-  Patch,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import {
@@ -28,6 +28,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { UploadedFile } from "@nestjs/common/decorators";
 import * as imageStorage from "./helpers/image-storage";
 import { SharpPipe } from "./pipes/sharp.pipe";
+
 @ApiTags("users")
 @Controller("user")
 export class UserController {
@@ -83,7 +84,6 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  // @UsePipes(new ValidationPipe())
   @Post("register")
   @ApiOperation({ summary: "регистрация" })
   @ApiBody({
