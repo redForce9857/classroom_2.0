@@ -23,7 +23,11 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.enableCors();
+  app.enableCors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type, Accept",
+  });
 
   const options: SwaggerDocumentOptions = {
     deepScanRoutes: true,
