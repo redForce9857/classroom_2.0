@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from "@nestjs/common";
 import { GradeService } from "./grade.service";
 import { CreateGradeDto } from "./dto/create-grade.dto";
@@ -115,10 +115,5 @@ export class GradeController {
   @ApiBearerAuth()
   remove(@Param("id") id: string) {
     return this.gradeService.remove(+id);
-  }
-
-  @Get("nigga")
-  sometest() {
-    return "Bekjan loh";
   }
 }

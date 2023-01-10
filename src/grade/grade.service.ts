@@ -32,7 +32,9 @@ export class GradeService {
   }
 
   async findAll() {
-    return await this.gradesRepo.find();
+    return await this.gradesRepo.find({
+      relations: { user_: true, assignment_: true },
+    });
   }
 
   async update(id: number, updateGradeDto: UpdateGradeDto) {

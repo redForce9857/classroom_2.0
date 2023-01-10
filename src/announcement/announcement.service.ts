@@ -18,8 +18,8 @@ export class AnnouncementService {
 
   async find(course_id: string) {
     return await this.announcementRepo.find({
-      select: { text: true, created_at: true, updated_at: true },
       where: { course_: { id: course_id } },
+      relations: { user_: true, course_: true },
     });
   }
 

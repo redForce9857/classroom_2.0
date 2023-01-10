@@ -1,34 +1,29 @@
 version: '3.8'
 
 services:
-    api: 
-      build:
-        context: .
-        dockerfile: Dockerfile 
-        args: 
-          - NODE_ENV=development 
-      environment:
-        - PORT=3000
-        - DB_PORT=5432
-        - DB_USER=postgres
-        - DB_PASSWORD=imdonetho2001B
-      ports:
-        - 3333:3000
-      depends_on:
-        - postgres
-      links:
-        - postgres:postgres
-      volumes:
-        - .:/usr/src/app
-        - /usr/src/app/node_modules
-      command: npm run start:dev
-    
-    postgres:
-      image: postgres:alpine
-      restart: always
-      environment: 
-        - DB_USER=postgres
-        - DB_PASSWORD=imdonetho2001B
-        - POSTGRES_HOST_AUTH_METHOD=trust
-        - DB_PORT=5432
+  api:
+    image: brometey/backend
+    environment:
+      - PORT=3000
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=imdonetho2001B
+    ports:
+      - 3333:3000
+    depends_on:
+      - postgres
+    links:
+      - postgres:postgres
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev
 
+  postgres:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=imdonetho2001B
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - DB_PORT=5432

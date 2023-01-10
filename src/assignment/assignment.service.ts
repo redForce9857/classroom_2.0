@@ -34,6 +34,7 @@ export class AssignmentService {
         time: true,
         deadline: true,
       },
+      relations: { user_: true, course_: true },
       where: {
         course_: { id: course_code },
       },

@@ -18,6 +18,7 @@ export class CommentService {
   async findAll(announcement_id: number) {
     return await this.commentRepo.find({
       where: { announcement: { id: announcement_id } },
+      relations: { author_: true },
     });
   }
 
