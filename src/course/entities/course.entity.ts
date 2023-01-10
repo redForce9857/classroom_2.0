@@ -1,8 +1,9 @@
 import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import { AssignmentEntity } from "src/assignment/entities/assignment.entity";
 import { TasksStreamEntity } from "src/tasks-stream/entities/tasks-stream.entity";
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { generator } from "../idGen";
+import { UserEntity } from "../../user/entities/user.entity";
 
 @Entity({ name: "courses" })
 export class CourseEntity {
@@ -14,6 +15,15 @@ export class CourseEntity {
 
   @Column({ nullable: true })
   room: string;
+
+  @Column({ nullable: true })
+  creatorAvatar: string;
+
+  @Column({ default: "blue", nullable: true })
+  background: string;
+
+  @Column({ nullable: true })
+  chapter: string;
 
   @OneToMany(() => TasksStreamEntity, (taskStream) => taskStream.course_)
   course_?: TasksStreamEntity[];
@@ -28,4 +38,7 @@ export class CourseEntity {
     cascade: true,
   })
   sections_: UserCourseEntity[];
+
+  @ManyToOne(() => UserEntity)
+  creator_: UserEntity;
 }
