@@ -35,6 +35,7 @@ export class CourseService {
 
     if (course) throw new ConflictException("Course already exist");
 
+    createCourseDto.creator_ = user;
     let newCourse = new CourseEntity();
     Object.assign(newCourse, createCourseDto);
     newCourse = await this.courseRepository.save(newCourse);
@@ -57,6 +58,7 @@ export class CourseService {
       .find({
         relations: {
           course_: true,
+          user_: true,
         },
         select: {
           course_: { id: true, title: true, room: true },
@@ -115,11 +117,16 @@ export class CourseService {
   }
 
   async find() {
-    return await this.courseRepository.find();
+    return await this.courseRepository.find({
+      relations: { course_: true, creator_: true },
+    });
   }
 
   async findOne(id: string) {
-    return await this.courseRepository.findOne({ where: { id: id } });
+    return await this.courseRepository.findOne({
+      where: { id: id },
+      relations: { course_: true, creator_: true },
+    });
   }
 
   async updateCourse(course_code: string, updateCourseDto: UpdateCourseDto) {

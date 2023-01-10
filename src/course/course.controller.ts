@@ -68,6 +68,11 @@ export class CourseController {
           description: "Аудитория",
           example: "315",
         },
+        creator_: {
+          type: "number",
+          description: "user id",
+          example: "1",
+        },
       },
     },
   })
@@ -148,6 +153,19 @@ export class CourseController {
           description: "Аудитория",
           example: "315",
         },
+        creatorAvatar: {
+          type: "string",
+          description: "path",
+        },
+        background: {
+          type: "string",
+          description: "color",
+          example: "blue",
+        },
+        chapter: {
+          type: "string",
+          description: "chapter",
+        },
       },
     },
   })
@@ -171,6 +189,19 @@ export class CourseController {
           type: "string",
           description: "Аудитория",
           example: "315",
+        },
+        creatorAvatar: {
+          type: "string",
+          description: "path",
+        },
+        background: {
+          type: "string",
+          description: "color",
+          example: "blue",
+        },
+        chapter: {
+          type: "string",
+          description: "chapter",
         },
       },
     },

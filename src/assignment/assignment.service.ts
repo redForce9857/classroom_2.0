@@ -54,18 +54,6 @@ export class AssignmentService {
     });
 
     newAssignment = await this.assignmentRepo.save(newAssignment);
-    // await this.assignmentRepo
-    //   .createQueryBuilder()
-    //   .insert()
-    //   .into(AssignmentEntity)
-    //   .values([
-    //     {
-    //       topic: createAssignmentDto.topic,
-    //       description: createAssignmentDto.description,
-    //       theme: createAssignmentDto.theme,
-    //     },
-    //   ])
-    //   .execute();
     return newAssignment;
   }
 
@@ -73,13 +61,6 @@ export class AssignmentService {
     await this.assignmentRepo.delete({
       id: ass_id,
     });
-
-    // await this.assignmentRepo
-    //   .createQueryBuilder("courses")
-    //   .delete()
-    //   .from(AssignmentEntity)
-    //   .where("id = :id", { id: ass_id })
-    //   .execute();
 
     return "successfully deleted";
   }
