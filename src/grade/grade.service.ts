@@ -21,13 +21,6 @@ export class GradeService {
       { mark: 0, user_: user, assignment_: { id: ass_id } },
     ]);
 
-    // await this.gradesRepo
-    //   .createQueryBuilder()
-    //   .insert()
-    //   .into(GradeEntity)
-    //   .values([{ mark: 0, user_: user, assignment_: { id: ass_id } }])
-    //   .execute();
-
     return "successfully created";
   }
 

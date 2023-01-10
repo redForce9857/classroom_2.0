@@ -26,8 +26,6 @@ export class GoogleAuthController {
   @Get("google/redirect")
   @ApiOperation({ summary: "редирект через google" })
   @UseGuards(GoogleAuthGuard)
-  // @Header("authorization", "none")
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async redirect(@UserDecorator() user: UserEntity) {
     return this.userService.generateJwt(user as UserEntity);
   }

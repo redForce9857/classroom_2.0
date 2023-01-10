@@ -14,28 +14,6 @@ export class RolesGuard implements CanActivate {
     private readonly userCourseRepo: Repository<UserCourseEntity>
   ) {}
 
-  // async canActivate(context: ExecutionContext): Promise<boolean> {
-  //   const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
-  //     ROLES_KEY,
-  //     [context.getHandler(), context.getClass()]
-  //   );
-  //   const { user } = context.switchToHttp().getRequest();
-  //   const { params } = context.switchToHttp().getRequest();
-  //   let role: string;
-  //   await this.userCourseRepo
-  //     .createQueryBuilder()
-  //     .select("uc.role")
-  //     .from(UserCourseEntity, "uc")
-  //     .where("uc.user_id = :u_id AND uc.course_id = :c_code ", {
-  //       u_id: user.id,
-  //       c_code: params.id,
-  //     })
-  //     .getOne()
-  //     .then((data) => (role = data.role));
-  //   if (!requiredRoles) return true;
-  //
-  //   return requiredRoles.some((r) => r == role);
-  // }
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
       ROLES_KEY,

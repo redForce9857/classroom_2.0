@@ -41,14 +41,6 @@ export class CourseService {
     newCourse = await this.courseRepository.save(newCourse);
 
     await this.userCourseRepository.save([{ user_: user, course_: newCourse }]);
-
-    // await this.userCourseRepository
-    //   .createQueryBuilder()
-    //   .insert()
-    //   .into(UserCourseEntity)
-    //   .values([{ user_: user, course_: newCourse }])
-    //   .execute();
-
     return newCourse;
   }
 
@@ -106,13 +98,6 @@ export class CourseService {
       { role: UserRole.STUDENT, course_: course, user_: user },
     ]);
 
-    // await this.userCourseRepository
-    //   .createQueryBuilder()
-    //   .insert()
-    //   .into(UserCourseEntity)
-    //   .values([{ role: UserRole.STUDENT, course_: course, user_: user }])
-    //   .execute();
-
     return course;
   }
 
@@ -133,15 +118,6 @@ export class CourseService {
     if (!updateCourseDto.room || !updateCourseDto.title)
       throw new ConflictException("one of the parameters was not passed");
 
-    // const updatedCourse = await this.courseRepository
-    //   .createQueryBuilder()
-    //   .update<CourseEntity>(CourseEntity)
-    //   .set(updateCourseDto)
-    //   .where("id = :id", { id: course_code })
-    //   .returning(["title", "room"])
-    //   .updateEntity(true)
-    //   .execute();
-
     return await this.courseRepository.update(
       { id: course_code },
       updateCourseDto
@@ -154,13 +130,6 @@ export class CourseService {
     await this.courseRepository.delete({
       id: course_code,
     });
-
-    // await this.courseRepository
-    //   .createQueryBuilder("courses")
-    //   .delete()
-    //   .from(CourseEntity)
-    //   .where("id = :id", { id: course_code })
-    //   .execute();
 
     return "successfully deleted";
   }

@@ -9,6 +9,7 @@ import { LoginUserDto } from "./dto/login.dto";
 import { compare } from "bcrypt";
 import { UpdateUserDto } from "./dto/updateUser.dto";
 import * as fs from "fs";
+
 @Injectable()
 export class UserService {
   constructor(
@@ -111,13 +112,6 @@ export class UserService {
       });
 
     await this.userRepo.update({ id: user.id }, { image: image });
-
-    // await this.userRepo
-    //   .createQueryBuilder()
-    //   .update(UserEntity)
-    //   .set({ image: image })
-    //   .where("id = :id", { id: user.id })
-    //   .execute();
 
     return `/image/${image}`;
   }
