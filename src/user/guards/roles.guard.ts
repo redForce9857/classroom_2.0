@@ -47,7 +47,7 @@ export class RolesGuard implements CanActivate {
     await this.userCourseRepo
       .findOne({
         where: {
-          id: user.id,
+          user_: user.id,
           course_: { id: params.id },
         },
       })
