@@ -48,7 +48,7 @@ export class GradeController {
     @UserDecorator() user: UserEntity,
     @Param("assignment_id") ass_id: number
   ) {
-    return this.gradeService.create(user, ass_id);
+    return this.gradeService.create(user, ass_id, createGradeDto);
   }
 
   @Get()

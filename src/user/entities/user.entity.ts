@@ -1,13 +1,14 @@
 import { UserCourseEntity } from "src/user_course/entities/usercourse.entity";
 import {
+  BeforeInsert,
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  BeforeInsert,
 } from "typeorm";
 import { hash } from "bcrypt";
 import { CommentEntity } from "../../comment/entities/comment.entity";
+import { GradeEntity } from "../../grade/entities/grade.entity";
 
 @Entity({ name: "users" })
 export class UserEntity {
@@ -38,4 +39,10 @@ export class UserEntity {
 
   @Column({ nullable: true })
   image: string;
+
+  @OneToMany(() => GradeEntity, (grade) => grade.user_, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  grades: GradeEntity[];
 }

@@ -4,6 +4,7 @@ import { UserEntity } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 import { UpdateGradeDto } from "./dto/update-grade.dto";
 import { GradeEntity } from "./entities/grade.entity";
+import { CreateGradeDto } from "./dto/create-grade.dto";
 
 @Injectable()
 export class GradeService {
@@ -12,13 +13,17 @@ export class GradeService {
     private readonly gradesRepo: Repository<GradeEntity>
   ) {}
 
-  async create(user: UserEntity, ass_id: number) {
+  async create(
+    user: UserEntity,
+    ass_id: number,
+    createGradeDto: CreateGradeDto
+  ) {
     const grade_exists = await this.gradesRepo.find({
       where: { user_: { id: user.id }, assignment_: { id: ass_id } },
     });
     if (grade_exists.length != 0) throw new Error("Оценка уже выставлена");
     await this.gradesRepo.save([
-      { mark: 0, user_: user, assignment_: { id: ass_id } },
+      { mark: createGradeDto.mark, user_: user, assignment_: { id: ass_id } },
     ]);
 
     return "successfully created";
@@ -35,6 +40,10 @@ export class GradeService {
   }
 
   async remove(id: number) {
+    const grade = await this.gradesRepo.findOne({ where: { id: id } });
+
+    if (!grade) return "Grade not found";
+
     await this.gradesRepo.delete(id);
 
     return "successfully deleted";

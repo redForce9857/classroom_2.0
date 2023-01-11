@@ -1,13 +1,15 @@
 import { CourseEntity } from "src/course/entities/course.entity";
 import { UserEntity } from "src/user/entities/user.entity";
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  ManyToMany,
+  Entity,
   JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
+import { GradeEntity } from "../../grade/entities/grade.entity";
 
 @Entity({ name: "assignments" })
 export class AssignmentEntity {
@@ -49,4 +51,10 @@ export class AssignmentEntity {
   @ManyToMany(() => UserEntity, { nullable: true })
   @JoinTable({ name: "users_" })
   users_: UserEntity[];
+
+  @OneToMany(() => GradeEntity, (grade) => grade.assignment_, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  grades: GradeEntity[];
 }

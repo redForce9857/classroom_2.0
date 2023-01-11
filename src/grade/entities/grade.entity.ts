@@ -14,10 +14,16 @@ export class GradeEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, (assignment) => assignment.grades, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   user_: UserEntity;
 
-  @ManyToOne(() => AssignmentEntity)
+  @ManyToOne(() => AssignmentEntity, (assignment) => assignment.grades, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   assignment_: AssignmentEntity;
 
   @Column({ default: 0 })

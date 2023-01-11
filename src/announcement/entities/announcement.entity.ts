@@ -1,15 +1,15 @@
-/* eslint-disable prettier/prettier */
 // TODO: Подумать о привязке файлов к объявлению .
 import {
-  PrimaryGeneratedColumn,
-  Entity,
   Column,
+  Entity,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
 import { UserEntity } from "src/user/entities/user.entity";
 import { CommentEntity } from "../../comment/entities/comment.entity";
+
 @Entity({ name: "announcement" })
 export class AnnouncementEntity {
   @PrimaryGeneratedColumn()
@@ -36,6 +36,7 @@ export class AnnouncementEntity {
 
   @ManyToOne(() => UserEntity)
   user_: UserEntity;
+
   @OneToMany(() => CommentEntity, (comment) => comment.announcement)
   comments: CommentEntity[];
 }
