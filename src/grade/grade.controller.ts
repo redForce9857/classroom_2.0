@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from "@nestjs/common";
 import { GradeService } from "./grade.service";
 import { CreateGradeDto } from "./dto/create-grade.dto";
@@ -19,6 +20,7 @@ import {
 } from "@nestjs/swagger";
 import { UserDecorator } from "src/user/decorator/user.decorator";
 import { UserEntity } from "src/user/entities/user.entity";
+import { AuthGuard } from "../user/guards/user.guard";
 
 @ApiTags("Grades")
 @Controller("grade")
@@ -42,6 +44,7 @@ export class GradeController {
     status: 201,
     description: "successfully created",
   })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   async create(
     @Body() createGradeDto: CreateGradeDto,
@@ -75,6 +78,7 @@ export class GradeController {
       },
     },
   })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   async getAll() {
     return this.gradeService.findAll();
@@ -97,6 +101,7 @@ export class GradeController {
     status: 201,
     description: "успешно изменено",
   })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   update(@Param("id") id: string, @Body() updateGradeDto: UpdateGradeDto) {
     return this.gradeService.update(+id, updateGradeDto);
@@ -112,6 +117,7 @@ export class GradeController {
     status: 401,
     description: "Unauthorized",
   })
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   remove(@Param("id") id: string) {
     return this.gradeService.remove(+id);

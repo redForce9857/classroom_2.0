@@ -24,7 +24,6 @@ export class AssignmentService {
     private readonly gradeRepo: Repository<GradeEntity>
   ) {}
 
-  // TODO: Add comments count
   async find(course_code: string) {
     return await this.assignmentRepo.find({
       select: {
@@ -34,7 +33,7 @@ export class AssignmentService {
         time: true,
         deadline: true,
       },
-      relations: { user_: true, course_: true },
+      relations: { user_: true, course_: true, grades: true },
       where: {
         course_: { id: course_code },
       },

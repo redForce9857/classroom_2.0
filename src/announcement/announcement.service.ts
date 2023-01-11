@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CourseEntity } from "src/course/entities/course.entity";
 import { UserEntity } from "src/user/entities/user.entity";
@@ -58,6 +58,6 @@ export class AnnouncementService {
   async remove(announcement_id: number) {
     await this.announcementRepo.delete({ id: announcement_id });
 
-    return "successfully deleted";
+    throw new NotFoundException("Course not found");
   }
 }
