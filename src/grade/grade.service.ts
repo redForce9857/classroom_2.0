@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
@@ -42,15 +38,5 @@ export class GradeService {
 
   async update(id: number, updateGradeDto: UpdateGradeDto) {
     return await this.gradesRepo.update(id, updateGradeDto);
-  }
-
-  async remove(id: number) {
-    const grade = await this.gradesRepo.findOne({ where: { id: id } });
-
-    if (!grade) throw new NotFoundException("Grade not found");
-
-    await this.gradesRepo.delete(id);
-
-    return "successfully deleted";
   }
 }

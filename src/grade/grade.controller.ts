@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
@@ -105,21 +104,5 @@ export class GradeController {
   @ApiBearerAuth()
   update(@Param("id") id: string, @Body() updateGradeDto: UpdateGradeDto) {
     return this.gradeService.update(+id, updateGradeDto);
-  }
-
-  @Delete(":id")
-  @ApiOperation({ summary: "удалить grade" })
-  @ApiResponse({
-    status: 200,
-    description: "успешно удалено",
-  })
-  @ApiResponse({
-    status: 401,
-    description: "Unauthorized",
-  })
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
-  remove(@Param("id") id: string) {
-    return this.gradeService.remove(+id);
   }
 }
