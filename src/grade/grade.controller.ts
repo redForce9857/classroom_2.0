@@ -83,6 +83,36 @@ export class GradeController {
     return this.gradeService.findAll();
   }
 
+  @Get("user")
+  @ApiOperation({ summary: "взять все grades одного юзера" })
+  @ApiResponse({
+    status: 200,
+    description: "Пример массива",
+    schema: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer",
+            description: "уникальный id",
+            example: "42",
+          },
+          mark: {
+            type: "integer",
+            description: "оценка",
+            example: "69",
+          },
+        },
+      },
+    },
+  })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  async getAllOfUser(@UserDecorator() user: UserEntity) {
+    return this.gradeService.findAllOfUser(user);
+  }
+
   @Patch(":id")
   @ApiOperation({ summary: "изменить grade" })
   @ApiBody({

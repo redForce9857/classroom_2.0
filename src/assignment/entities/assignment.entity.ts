@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { GradeEntity } from "../../grade/entities/grade.entity";
+import { Max, Min } from "class-validator";
 
 @Entity({ name: "assignments" })
 export class AssignmentEntity {
@@ -42,7 +43,9 @@ export class AssignmentEntity {
   @Column({ nullable: true })
   deadline: Date;
 
-  @Column({ nullable: true })
+  @Column({ default: 0 })
+  @Max(100)
+  @Min(0)
   maxGrade: number;
 
   @ManyToOne(() => UserEntity)

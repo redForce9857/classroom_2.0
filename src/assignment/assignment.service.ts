@@ -27,6 +27,7 @@ export class AssignmentService {
   async find(course_code: string) {
     return await this.assignmentRepo.find({
       select: {
+        id: true,
         topic: true,
         description: true,
         theme: true,

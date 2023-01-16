@@ -1,15 +1,9 @@
 import { AssignmentEntity } from "src/assignment/entities/assignment.entity";
 import { UserEntity } from "src/user/entities/user.entity";
-import {
-  Check,
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Max, Min } from "class-validator";
 
 @Entity({ name: "grades" })
-@Check('"mark">=0 AND "mark"<=100')
 export class GradeEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -26,6 +20,8 @@ export class GradeEntity {
   })
   assignment_: AssignmentEntity;
 
+  @Max(100)
+  @Min(0)
   @Column({ default: 0 })
   mark: number;
 }

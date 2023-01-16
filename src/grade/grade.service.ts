@@ -5,12 +5,15 @@ import { Repository } from "typeorm";
 import { UpdateGradeDto } from "./dto/update-grade.dto";
 import { GradeEntity } from "./entities/grade.entity";
 import { CreateGradeDto } from "./dto/create-grade.dto";
+import { AssignmentEntity } from "src/assignment/entities/assignment.entity";
 
 @Injectable()
 export class GradeService {
   constructor(
     @InjectRepository(GradeEntity)
-    private readonly gradesRepo: Repository<GradeEntity>
+    private readonly gradesRepo: Repository<GradeEntity>,
+    @InjectRepository(AssignmentEntity)
+    private readonly assignmentRepo: Repository<AssignmentEntity>
   ) {}
 
   async create(
@@ -18,6 +21,16 @@ export class GradeService {
     ass_id: number,
     createGradeDto: CreateGradeDto
   ) {
+    const assignment = await this.assignmentRepo.findOne({
+      where: { id: ass_id },
+    });
+
+    if (createGradeDto.mark > assignment.maxGrade)
+      throw new ConflictException("Оценка выше максимального уровня");
+
+    if (createGradeDto.mark < 0)
+      throw new ConflictException("Оценка ниже минимального уровня");
+
     const grade_exists = await this.gradesRepo.find({
       where: { user_: { id: user.id }, assignment_: { id: ass_id } },
     });
@@ -33,6 +46,13 @@ export class GradeService {
   async findAll() {
     return await this.gradesRepo.find({
       relations: { user_: true, assignment_: true },
+    });
+  }
+
+  async findAllOfUser(user: UserEntity) {
+    return await this.gradesRepo.find({
+      relations: { assignment_: true },
+      where: { user_: { id: user.id } },
     });
   }
 
