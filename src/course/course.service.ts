@@ -40,7 +40,7 @@ export class CourseService {
     Object.assign(newCourse, createCourseDto);
     newCourse = await this.courseRepository.save(newCourse);
 
-    await this.userCourseRepository.save([{ user_: user, course_: newCourse }]);
+    await this.userCourseRepository.save([{ user_: user }]);
     return newCourse;
   }
 
@@ -49,20 +49,13 @@ export class CourseService {
     await this.userCourseRepository
       .find({
         relations: {
-          course_: true,
           user_: true,
-        },
-        select: {
-          course_: { id: true, title: true, room: true },
         },
         where: { user_: { id: currentUserId } },
       })
       .then((data) => {
         for (let i = 0; i < data.length; i++) {
           const course: object = {
-            course_code: data[i].course_.id,
-            title: data[i].course_.title,
-            room: data[i].course_.room,
             role: data[i].role,
           };
           coursesArr.push(course);
@@ -85,7 +78,6 @@ export class CourseService {
       .findOne({
         where: {
           user_: { id: user.id },
-          course_: { id: course.id },
         },
       })
       .then((data) => {
@@ -95,7 +87,7 @@ export class CourseService {
     if (checkinUser) throw new ConflictException("User already in this course");
 
     await this.userCourseRepository.save([
-      { role: UserRole.STUDENT, course_: course, user_: user },
+      { role: UserRole.STUDENT, user_: user },
     ]);
 
     return course;
@@ -103,14 +95,14 @@ export class CourseService {
 
   async find() {
     return await this.courseRepository.find({
-      relations: { course_: true, creator_: true },
+      relations: { creator_: true },
     });
   }
 
   async findOne(id: string) {
     return await this.courseRepository.findOne({
       where: { id: id },
-      relations: { course_: true, creator_: true },
+      relations: { creator_: true },
     });
   }
 
@@ -141,7 +133,6 @@ export class CourseService {
       .find({
         relations: { user_: true },
         select: { user_: { display_name: true }, role: true },
-        where: { course_: { id: id } },
       })
       .then((unparsed_users) => {
         const parsed_users = [];
